@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>YouKu HTML5 Player BookMark</title>
+	<style type="text/css" media="screen">
+		*{margin:0;padding:0;}
+		body{font-family:arial,sans-serif;background:url(http://zythum.free.bg/supercover/w.png);}
+		#header{height:100px;}
+		#btn{
+			text-align:center;
+			font-size:60px;
+			color:#333;
+			display:block;
+			width:800px;
+			height:100px;
+			line-height:100px;
+			margin:0 auto;
+			text-decoration:none;
+			letter-spacing: -3px;
+			box-shadow:1px 1px 5px #333;
+			margin-top:-10px;
+			border-radius:2px;
+			background-image: -webkit-linear-gradient(top,#fff,#ddd);
+			background-image: -moz-linear-gradient(top,#fff,#ddd);
+			background-image: -ms-linear-gradient(top,#fff,#ddd);
+			background-image: -o-linear-gradient(top,#fff,#ddd);
+			background-image: linear-gradient(top,#fff,#ddd);
+		}
+		#btn2{
+			text-align:center;
+			font-size:30px;
+			color:#333;
+			display:block;
+			width:300px;
+			height:60px;
+			line-height:60px;
+			margin:0 auto;
+			text-decoration:none;
+			letter-spacing: -3px;
+			box-shadow:1px 1px 5px #333;
+			border-radius:5px;
+			background-image: -webkit-linear-gradient(top,#fff,#ddd);
+			background-image: -moz-linear-gradient(top,#fff,#ddd);
+			background-image: -ms-linear-gradient(top,#fff,#ddd);
+			background-image: -o-linear-gradient(top,#fff,#ddd);
+			background-image: linear-gradient(top,#fff,#ddd);
+			margin:50px 0;
+			display:inline-block;
+		}
+		#img img{
+			display: block;
+			margin:0 auto;
+			letter-spacing: -3px;
+			box-shadow:1px 1px 5px #333;
+		}
+		#text{
+			width:800px;
+			margin:0 auto;
+			padding:100px 40px;
+			font-size:18px;
+			line-height:150%;
+		}
+		#about{
+			text-align:center;
+			padding:30px;
+			line-height:30px;
+		}
+	</style>
+</head>
+<body>
+	<div id="header">
+		<a id="btn" href="javascript:(function(){var s = document.createElement('script');s.setAttribute('type','text/javascript');s.setAttribute('src','http://zythum.free.bg/youkuhtml5playerbookmark/youkuhtml5playerbookmark.js');document.head.appendChild(s);})();">YouKu HTML5 Player</a>
+	</div>
+	<div id="text">
+		<p>这个东西用于在YOUKU.com上使用html5的形式播放，而不是flash。</p>
+		<p>在视频播放页点击这个收藏的bookmark便可。</p>
+		<p><span style="font-size:30px;letter-spacing:-3px;">拖拽右面那个东西到收藏栏 =》</span>
+			<a id="btn2" href="javascript:(function(){var s = document.createElement('script');s.setAttribute('type','text/javascript');s.setAttribute('src','http://zythum.free.bg/youkuhtml5playerbookmark/youkuhtml5playerbookmark.js');document.head.appendChild(s);})();">YouKu HTML5 Player</a></p>
+
+		<p>今天上班的时候偷偷做的。话说每天看优酷的时候风扇都哗哗的，实在受不了了就做了这个。来解决flash发热大的问题。
+		目前貌似播放只支持safari同学。因为视频格式使用的m3u8，所以貌似chrome没法播放。
+		用chrome的童鞋也不要哭，不要闹。朱一也把mp4的地址也解析出来了。在下来做了个连接。童鞋们点击进去就好了。
+		其实本来像把chrome的地址也判断写ua放进去的。发现优酷不乖得弟子做了3次重定向。天。还是点链接把。</p>
+	</div>
+	<div id="img">
+		<p style="text-align:center;padding-bottom:100px;">----------------下面是实物截图----------------</p>
+		<img src="http://ww3.sinaimg.cn/large/6e9ad2bdgw1dr26z0177aj.jpg" alt="有图有真像" />
+	</div>
+	<div id="about">
+		Code by zythum_朱一 
+		<a href="http://zythum.diandian.com">http://zythum.diandian.com</a>
+		|
+		<a href="http://zyiangel.blogbus.com">http://zyiangel.blogbus.com</a>
+	</div>
+</body>
+</html>
