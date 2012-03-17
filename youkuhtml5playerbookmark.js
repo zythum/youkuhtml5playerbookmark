@@ -63,23 +63,55 @@
 		'cursor:pointer',
 		'pointer-events:auto',
 		''
+	];
+	
+	var changeBtnCss = [
+		'',
+		'position:absolute',
+		'width:500px',
+		'height:40px',
+		'top:470px',
+		'left:50%',
+		'margin-left:-250px',
+		'z-index:1000000000000',
+		'background:#000',
+		'box-shadow:0 0 5px #333',
+		'text-align:center',
+		'color:#eee',
+		'border-radius:150px',
+		'overflow:hidden',
+		''
+	];
+	
+	var changeBtnItemCss = [
+		'',
+		'display:inline-block',
+		'width:230px',
+		'height:40px',
+		'line-height:40px',
+		'font-size:20px',		
+		'corsor:pointer',
+		''
 	]
 	
+	
 	var HTML5Player = function(){
+	
+		var mp4Src = 'http://3g.youku.com/pvs?id='+videoId2+'&format=3gphd';
+		var m3u8Src= '/player/getM3U8/vid/'+videoId+'/type/mp4/flv/ts/'+(new Date()).getTime()+'/v.m3u8';
+		
 		var cover = document.createElement('div');
 		cover.style.cssText += coverCss.join(';');
 
 		var v = document.createElement('video');
-
 		v.setAttribute('height','458');
 		v.setAttribute('width','610');
 		v.setAttribute('controls','true');
 		v.style.cssText += videoCss.join(';');
-		v.src = '/player/getM3U8/vid/'+videoId+'/type/mp4/flv/ts/'+(new Date()).getTime()+'/v.m3u8';
+		v.src = m3u8Src;
 		
 		
 		var a = document.createElement('a');		
-		var mp4Src = 'http://3g.youku.com/pvs?id='+videoId2+'&format=3gphd';
 		a.setAttribute('href',mp4Src);
 		a.innerHTML = '不能直接观看，点击这里：'+mp4Src;
 		a.style.cssText += aCss.join(';');
@@ -104,10 +136,43 @@
 			cover.style.backgroundColor = 'rgba(255,255,255,0)';
 		},false);
 			
+		var changeBtn = document.createElement('div');
+		changeBtn.style.cssText += changeBtnCss.join(';');
+		
+		var m3u8btn = document.createElement('div');
+		m3u8btn.style.cssText += changeBtnItemCss.join(';');
+		m3u8btn.style.backgroundColor = '#666';
+		m3u8btn.style.boxShadow = '0 0 3px #000 inset';
+		m3u8btn.innerHTML = '使用M3U8格式播放';
+		changeBtn.appendChild(m3u8btn);
+		
+		var mp4btn = document.createElement('div');
+		mp4btn.style.cssText += changeBtnItemCss.join(';');
+		mp4btn.innerHTML = '使用MP4格式播放';
+		changeBtn.appendChild(mp4btn);
+		
+		m3u8btn.addEventListener('click',function(){
+			v.src = m3u8Src;
+			m3u8btn.style.backgroundColor = '#666';
+			mp4btn.style.backgroundColor = 'transparent';
+			m3u8btn.style.boxShadow = '0 0 3px #000 inset';
+			mp4btn.style.boxShadow = 'none';
+		},false);
+		
+		mp4btn.addEventListener('click',function(){
+			v.src = mp4Src;
+			mp4btn.style.backgroundColor = '#666';
+			m3u8btn.style.backgroundColor = 'transparent';
+			mp4btn.style.boxShadow = '0 0 3px #000 inset';
+			m3u8btn.style.boxShadow = 'none';
+		},false);
+		
 		return {
 			add : function(){
 				document.body.appendChild(cover);
+				document.body.appendChild(changeBtn);
 				document.body.appendChild(v);
+				
 				v.addEventListener('canplay',v.play);
 				setTimeout(function(){
 					cover.style.backgroundColor = 'rgba(255,255,255,0.6)';
@@ -121,6 +186,7 @@
 				setTimeout(function(){
 					cover.parentNode && document.body.removeChild(cover);
 					v.parentNode && document.body.removeChild(v);
+					changeBtn.parentNode && document.body.removeChild(changeBtn);
 				},1100);
 			}
 		}
