@@ -93,10 +93,14 @@
 		''
 	];
 
+	var pad = function(num, n) {
+        return (new Array(n >(''+num).length ? (n - (''+num).length+1) : 0).join('0') + num);
+	}
 	
 	var HTML5Player = function(){
 		//123/554/149/3
-		iidStr = iid.toString().match(/(\d{3})(\d{3})(\d{3})/);
+		//iidStr = iid.toString().match(/(\d{3})(\d{3})(\d{3})/);
+		iidStr = pad(iid,9).match(/(\d{3})(\d{3})(\d{3})/);
 		var idEncodeed = iidStr[1] + '/' + iidStr[2] + '/' + iidStr[3];
 
 		var t_yuanhuaSrc = 'http://m3u8.tdimg.com/'+idEncodeed+'/'+'99.m3u8';
