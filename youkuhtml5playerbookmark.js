@@ -9,7 +9,7 @@
 		'left:0',
 		'bottom:0',
 		'right:0',
-		'background-color:rgba(255,255,255,0)',
+		'background-color:rgba(0,0,0,0)',
 		'z-index:999999999999',
 		'-webkit-transition:background-color 0.2s ease;',
 		'-moz-transition:background-color 0.2s ease;',
@@ -23,13 +23,14 @@
 		'position:absolute',
 		'width:610px',
 		'height:458px',
-		'top:-500px',
+		'top: 200px',
 		'left:50%',
 		'margin-left:-306px',
-		'border:1px solid #999',
+		'margin-top: -229px',
+		'border:1px solid #111',
 		'z-index:1000000000000',
 		'background:#000',
-		'box-shadow:0 0 5px #333',
+		'box-shadow:0 0 10px #333',
 		'-webkit-transition:top 1s ease;',
 		'-moz-transition:top 1s ease;',
 		'-o-transition:top 1s ease;',
@@ -46,39 +47,42 @@
 		'text-align:center',
 		'font-size:14px',
 		'pointer-events:auto',
-		''
+		'color:#bbb',
 	];
 	
 	var btnCss = [
 		'',
 		'position:absolute',
-		'top:0',
+		'top:5px',
 		'height:30px;',
 		'line-height:30px',
-		'width:60px',
+		'width:70px',
 		'text-align:center',
 		'font-size:14px',
 		'letter-spacing:-1px',
-		'color:#014CCC',
+		'color:#bbb',
 		'cursor:pointer',
 		'pointer-events:auto',
-		''
+		'display: block',
+		'background: #000',
+		'-webkit-border-radius: 10px;',
+		'box-shadow:0 0 15px #666',
 	];
 	
 	var changeBtnCss = [
 		'',
 		'position:absolute',
-		'width:500px',
-		'height:40px',
-		'top:470px',
+		'width:140px',
+		'height:22px',
+		'bottom: 10px',
 		'left:50%',
-		'margin-left:-250px',
+		'margin-left:-70px',
 		'z-index:1000000000000',
 		'background:#000',
 		'box-shadow:0 0 5px #333',
 		'text-align:center',
 		'color:#eee',
-		'border-radius:150px',
+		'border-radius:0px',
 		'overflow:hidden',
 		''
 	];
@@ -86,12 +90,11 @@
 	var changeBtnItemCss = [
 		'',
 		'display:inline-block',
-		'width:230px',
-		'height:40px',
-		'line-height:40px',
-		'font-size:20px',		
+		'width:70px',
+		'height:22px',
+		'bottom: 10px',
+		'font-size:16px',		
 		'corsor:pointer',
-		''
 	]
 	
 	
@@ -113,17 +116,17 @@
 		
 		var a = document.createElement('a');		
 		a.setAttribute('href',mp4Src);
-		a.innerHTML = '不能直接观看，点击这里：'+mp4Src;
-		a.style.cssText += aCss.join(';');
+		a.innerHTML = '不能直接观看，点击这里';
+		a.style.cssText += aCss.join(';text-align:right;');
 		cover.appendChild(a);
 		
 		var off = document.createElement('div');
 		off.innerHTML = '退出';
-		off.style.cssText += btnCss.join(';')+';right:0;';
+		off.style.cssText += btnCss.join(';')+';right:10px;';
 		cover.appendChild(off);
 		var nocover = document.createElement('div');
 		nocover.innerHTML = '打开迷雾';
-		nocover.style.cssText += btnCss.join(';')+';right:60px;';;
+		nocover.style.cssText += btnCss.join(';')+';right:85px;';
 		cover.appendChild(nocover);
 		
 		off.addEventListener('click',function(){
@@ -133,7 +136,7 @@
 		},false);
 		
 		nocover.addEventListener('click',function(){
-			cover.style.backgroundColor = 'rgba(255,255,255,0)';
+			cover.style.backgroundColor = 'rgba(0,0,0,0)';
 		},false);
 			
 		var changeBtn = document.createElement('div');
@@ -143,12 +146,12 @@
 		m3u8btn.style.cssText += changeBtnItemCss.join(';');
 		m3u8btn.style.backgroundColor = '#666';
 		m3u8btn.style.boxShadow = '0 0 3px #000 inset';
-		m3u8btn.innerHTML = '使用M3U8格式播放';
+		m3u8btn.innerHTML = 'M3U8';
 		changeBtn.appendChild(m3u8btn);
 		
 		var mp4btn = document.createElement('div');
 		mp4btn.style.cssText += changeBtnItemCss.join(';');
-		mp4btn.innerHTML = '使用MP4格式播放';
+		mp4btn.innerHTML = 'MP4';
 		changeBtn.appendChild(mp4btn);
 		
 		m3u8btn.addEventListener('click',function(){
@@ -175,13 +178,13 @@
 				
 				v.addEventListener('canplay',v.play);
 				setTimeout(function(){
-					cover.style.backgroundColor = 'rgba(255,255,255,0.6)';
-					v.style.top = '-1px';
+					cover.style.backgroundColor = 'rgba(0,0,0,0.9)';
+					v.style.top = '50%';
 				},100);
 			},
 			remove : function(){
 				v.pause();
-				cover.style.backgroundColor = 'rgba(255,255,255,0)';
+				cover.style.backgroundColor = 'rgba(0,0,0,0)';
 				v.style.top = '-500px';
 				setTimeout(function(){
 					cover.parentNode && document.body.removeChild(cover);
