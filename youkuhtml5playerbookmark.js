@@ -26,7 +26,6 @@
 		'top:-500px',
 		'left:50%',
 		'margin-left:-306px',
-		'border:1px solid #999',
 		'z-index:1000000000000',
 		'background:#000',
 		'box-shadow:0 0 5px #333',
@@ -75,6 +74,11 @@
 		'margin-left:-250px',
 		'z-index:1000000000000',
 		'background:#000',
+		'background-image: -webkit-linear-gradient(top,#333,#000)',
+		'background-image: -moz-linear-gradient(top,#333,#000)',
+		'background-image: -ms-linear-gradient(top,#333,#000)',
+		'background-image: -o-linear-gradient(top,#333,#000)',
+		'background-image: linear-gradient(top,#333,#000)',
 		'box-shadow:0 0 5px #333',
 		'text-align:center',
 		'color:#eee',
@@ -86,20 +90,22 @@
 	var changeBtnItemCss = [
 		'',
 		'display:inline-block',
-		'width:230px',
+		'width:90px',
 		'height:40px',
 		'line-height:40px',
 		'font-size:20px',		
-		'corsor:pointer',
+		'cursor:pointer',
 		''
-	]
+	];
 	
 	
 	var HTML5Player = function(){
 	
-		var mp4Src = 'http://3g.youku.com/pvs?id='+videoId2+'&format=3gphd';
-		var m3u8Src= '/player/getM3U8/vid/'+videoId+'/type/mp4/flv/ts/'+(new Date()).getTime()+'/v.m3u8';
-		
+		var hd2Src= '/player/getM3U8/vid/'+videoId+'/type/hd2/ts/'+(((new Date()).getTime()/1000).toString()|0)+'/v.m3u8';
+		var mp4Src= '/player/getM3U8/vid/'+videoId+'/type/mp4/ts/'+(((new Date()).getTime()/1000).toString()|0)+'/v.m3u8';
+		var flvSrc= '/player/getM3U8/vid/'+videoId+'/type/flv/ts/'+(((new Date()).getTime()/1000).toString()|0)+'/v.m3u8';
+		var mp4Src2 = 'http://3g.youku.com/pvs?id='+videoId2+'&format=3gphd';
+		//var m3u8Src= '/player/getM3U8/vid/'+videoId+'/type/mp4/flv/ts/'+(new Date()).getTime()+'/v.m3u8';
 		var cover = document.createElement('div');
 		cover.style.cssText += coverCss.join(';');
 
@@ -107,22 +113,23 @@
 		v.setAttribute('height','458');
 		v.setAttribute('width','610');
 		v.setAttribute('controls','true');
+		v.setAttribute('autoplay','true');
 		v.style.cssText += videoCss.join(';');
-		v.src = m3u8Src;
+		v.src = hd2Src;
 		
 		
 		var a = document.createElement('a');		
 		a.setAttribute('href',mp4Src);
-		a.innerHTML = '不能直接观看，点击这里：'+mp4Src;
+		a.innerHTML = '&#x4E0D;&#x80FD;&#x76F4;&#x63A5;&#x89C2;&#x770B;&#xFF0C;&#x70B9;&#x51FB;&#x8FD9;&#x91CC;&#xFF1A;'+mp4Src;
 		a.style.cssText += aCss.join(';');
 		cover.appendChild(a);
 		
 		var off = document.createElement('div');
-		off.innerHTML = '退出';
+		off.innerHTML = '&#x9000;&#x51FA;';
 		off.style.cssText += btnCss.join(';')+';right:0;';
 		cover.appendChild(off);
 		var nocover = document.createElement('div');
-		nocover.innerHTML = '打开迷雾';
+		nocover.innerHTML = '&#x6253;&#x5F00;&#x8FF7;&#x96FE;';
 		nocover.style.cssText += btnCss.join(';')+';right:60px;';;
 		cover.appendChild(nocover);
 		
@@ -139,32 +146,75 @@
 		var changeBtn = document.createElement('div');
 		changeBtn.style.cssText += changeBtnCss.join(';');
 		
-		var m3u8btn = document.createElement('div');
-		m3u8btn.style.cssText += changeBtnItemCss.join(';');
-		m3u8btn.style.backgroundColor = '#666';
-		m3u8btn.style.boxShadow = '0 0 3px #000 inset';
-		m3u8btn.innerHTML = '使用M3U8格式播放';
-		changeBtn.appendChild(m3u8btn);
-		
+				
+		var hd2btn = document.createElement('div');
+		hd2btn.style.cssText += changeBtnItemCss.join(';');
+		hd2btn.style.backgroundColor = '#666';
+		hd2btn.style.boxShadow = '0 0 3px #000 inset';
+		hd2btn.innerHTML = '&#x8D85;&#x6E05;';
+		changeBtn.appendChild(hd2btn);
+				
 		var mp4btn = document.createElement('div');
 		mp4btn.style.cssText += changeBtnItemCss.join(';');
-		mp4btn.innerHTML = '使用MP4格式播放';
+		mp4btn.innerHTML = '&#x9AD8;&#x6E05;';
 		changeBtn.appendChild(mp4btn);
 		
-		m3u8btn.addEventListener('click',function(){
-			v.src = m3u8Src;
-			m3u8btn.style.backgroundColor = '#666';
+		var flvbtn = document.createElement('div');
+		flvbtn.style.cssText += changeBtnItemCss.join(';');
+		flvbtn.innerHTML = '&#x6807;&#x6E05;';
+		changeBtn.appendChild(flvbtn);
+		
+		var mp4btn2 = document.createElement('div');
+		mp4btn2.style.cssText += changeBtnItemCss.join(';');
+		mp4btn2.innerHTML = 'mp4';
+		changeBtn.appendChild(mp4btn2);
+		
+		hd2btn.addEventListener('click',function(){
+			v.src = hd2Src;
+			hd2btn.style.backgroundColor = '#666';			
+			hd2btn.style.boxShadow = '0 0 3px #000 inset';
 			mp4btn.style.backgroundColor = 'transparent';
-			m3u8btn.style.boxShadow = '0 0 3px #000 inset';
 			mp4btn.style.boxShadow = 'none';
+			flvbtn.style.backgroundColor = 'transparent';
+			flvbtn.style.boxShadow = 'none';
+			mp4btn2.style.backgroundColor = 'transparent';
+			mp4btn2.style.boxShadow = 'none';
 		},false);
 		
 		mp4btn.addEventListener('click',function(){
 			v.src = mp4Src;
 			mp4btn.style.backgroundColor = '#666';
-			m3u8btn.style.backgroundColor = 'transparent';
 			mp4btn.style.boxShadow = '0 0 3px #000 inset';
-			m3u8btn.style.boxShadow = 'none';
+			hd2btn.style.backgroundColor = 'transparent';
+			hd2btn.style.boxShadow = 'none';
+			flvbtn.style.backgroundColor = 'transparent';
+			flvbtn.style.boxShadow = 'none';
+			mp4btn2.style.backgroundColor = 'transparent';
+			mp4btn2.style.boxShadow = 'none';
+		},false);
+		
+		flvbtn.addEventListener('click',function(){
+			v.src = flvSrc;
+			flvbtn.style.backgroundColor = '#666';
+			flvbtn.style.boxShadow = '0 0 3px #000 inset';
+			hd2btn.style.backgroundColor = 'transparent';
+			hd2btn.style.boxShadow = 'none';
+			mp4btn.style.backgroundColor = 'transparent';
+			mp4btn.style.boxShadow = 'none';
+			mp4btn2.style.backgroundColor = 'transparent';
+			mp4btn2.style.boxShadow = 'none';
+		},false);
+		
+		mp4btn2.addEventListener('click',function(){
+			v.src = mp4Src2;			
+			mp4btn2.style.backgroundColor = '#666';
+			mp4btn2.style.boxShadow = '0 0 3px #000 inset';
+			hd2btn.style.backgroundColor = 'transparent';
+			hd2btn.style.boxShadow = 'none';
+			flvbtn.style.backgroundColor = 'transparent';
+			flvbtn.style.boxShadow = 'none';
+			mp4btn.style.backgroundColor = 'transparent';
+			mp4btn.style.boxShadow = 'none';
 		},false);
 		
 		return {
@@ -193,8 +243,8 @@
 	}
 
 	var flashPlayer = function(){
-		var flashOut = document.getElementById('player');
 		var flash = document.getElementById('movie_player');
+		var flashOut = flash.parentNode;
 		return {
 			add : function(){
 				flashOut.appendChild(flash);
