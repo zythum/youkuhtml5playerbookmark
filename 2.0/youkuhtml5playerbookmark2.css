@@ -1,0 +1,258 @@
+.youkuhtml5playerbookmark2-cover{
+	position:fixed;
+	top:0;
+	left:0;
+	bottom:0;
+	right:0;
+	background:rgba(255,255,255,0.8);
+	-webkit-user-select:none;
+	z-index:9999998;
+	pointer-events:none;
+}
+.youkuhtml5playerbookmark2-layer{
+	position:fixed;
+	top:50%;
+	left:50%;
+	width:800px;
+	height:450px;
+	margin:-240px 0 0 -400px;
+	-webkit-user-select:none;
+	z-index:9999999;
+	font-weight:bold;
+	box-shadow:1px 1px 3px #333, 0px 0px 40px rgba(63,179,250,0.7);
+}
+.youkuhtml5playerbookmark2-layer.youkuhtml5playerbookmark2-full{
+	margin:auto;
+	top:0;
+	left:0;
+	bottom:0;
+	right:0;
+	width:auto;
+	height:auto;
+}
+.youkuhtml5playerbookmark2-title{
+	width:330px;
+	height:30px;
+	font-size:16px;
+	line-height:30px;
+	text-align:center;
+	color:#fff;
+	position:absolute;
+	top:-26px;
+	left:0;
+	font-family:arial,sans-serif;
+	background-image:-webkit-linear-gradient(top, #3fb3fa 0%, #3492c4 100%);
+}
+.youkuhtml5playerbookmark2-player{
+	width:100%;
+	height:100%;
+	position:relative;
+	background:#000;
+}
+.youkuhtml5playerbookmark2-video{
+	width:100%;
+	height:100%;
+	background:#000;
+}
+.youkuhtml5playerbookmark2-ctrlbar{
+	position:absolute;
+	top:0;
+	right:0;
+	bottom:0;
+	left:0;
+}
+.youkuhtml5playerbookmark2-ctrlbar.youkuhtml5playerbookmark2-ctrlbarhover .youkuhtml5playerbookmark2-progressNum{
+	opacity: 1;
+}
+.youkuhtml5playerbookmark2-ctrlbar.youkuhtml5playerbookmark2-ctrlbarhover .youkuhtml5playerbookmark2-progress{
+	opacity: 1;
+}
+.youkuhtml5playerbookmark2-ctrlbar.youkuhtml5playerbookmark2-ctrlbarhover .youkuhtml5playerbookmark2-volume{
+	opacity: 1;
+}
+.youkuhtml5playerbookmark2-ctrlbar.youkuhtml5playerbookmark2-ctrlbarhover .youkuhtml5playerbookmark2-btns{
+	opacity: 1;
+}
+.youkuhtml5playerbookmark2-ctrlbar.youkuhtml5playerbookmark2-ctrlbarhover .youkuhtml5playerbookmark2-close{
+	opacity: 1;
+}
+.youkuhtml5playerbookmark2-progressNum:hover{
+	opacity: 1;
+}
+.youkuhtml5playerbookmark2-progressNum{
+	position:absolute;
+	left:20px;
+	bottom:17px;
+	width:120px;
+	height:20px;
+	text-align:center;
+	line-height:20px;
+	font-size:13px;
+	font-weight:bold;
+	color:#fff;
+	text-shadow:0 0 3px #000;
+	font-family: arial, sans-serif;
+	white-space:nowrap;
+	opacity: 0;
+	-webkit-transition:opacity 0.3s ease;
+}
+.youkuhtml5playerbookmark2-progress:hover{
+	opacity: 1;
+}
+.youkuhtml5playerbookmark2-progress{
+	position:absolute;
+	left:150px;
+	bottom:20px;
+	right:220px;
+	height:14px;
+	cursor:pointer;
+	opacity: 0;
+	-webkit-transition:opacity 0.3s ease;
+}
+.youkuhtml5playerbookmark2-volume:hover{
+	opacity: 1;
+}
+.youkuhtml5playerbookmark2-volume{
+	position:absolute;
+	right:100px;
+	bottom:20px;
+	width:100px;
+	height:14px;
+	cursor:pointer;
+	opacity: 0;
+	-webkit-transition:opacity 0.3s ease;
+}
+.youkuhtml5playerbookmark2-btns:hover{
+	opacity: 1;
+}
+.youkuhtml5playerbookmark2-btns{
+	position:absolute;
+	right:20px;
+	bottom:8px;
+	width:40px;
+	opacity: 0;
+	-webkit-transition:opacity 0.3s ease;
+}
+.youkuhtml5playerbookmark2-btn{
+	width:39px;
+	height:20px;
+	border:1px solid #333;
+	line-height:20px;
+	text-align:center;
+	margin-bottom:10px;
+	float:right;
+	cursor:pointer;
+	font-size:13px;
+	color:#eee;
+	font-family: arial,sans-serif;
+	background-image: -webkit-linear-gradient(top,#3fb3fa,#3492c4);
+	box-shadow:0px 3px 0px #003366;
+	border-radius:3px;
+	font-weight:bold;
+}
+.youkuhtml5playerbookmark2-select{
+	background-image: -webkit-linear-gradient(bottom,#3fb3fa,#3492c4);
+	box-shadow:0px 1px 0px #003366;
+	position:relative;
+	top:1.4px;
+	color:#fac633;
+}
+.youkuhtml5playerbookmark2-range{
+	width:100%;
+	height:100%;
+	border-radius:7px;
+	box-shadow:0 0 2px #000 inset;
+	background:rgba(50,50,50,0.6);
+	position:relative;
+}
+.youkuhtml5playerbookmark2-rangeinner{
+	position: absolute;
+	top:1px;
+	bottom:1px;
+	right:1px;
+	left:1px;
+}
+.youkuhtml5playerbookmark2-rangebtn{
+	height:100%;
+	width:0%;
+	border-radius:6px;
+	background-image:-webkit-linear-gradient(top, #3fb3fa 0%, #3492c4 100%);
+	box-shadow:0 0 2px #000;
+	position:relative;
+}
+.youkuhtml5playerbookmark2-volume .youkuhtml5playerbookmark2-rangebtn:after{
+	content: '\266B';
+}
+.youkuhtml5playerbookmark2-rangebtn:after{
+	content: ' ';
+	width:18px;
+	height:18px;
+	font-size:16px;
+	line-height:18px;
+	text-align:center;
+	text-shadow:1px 1px 1px #333;
+	position:absolute;
+	top:-4px;
+	right:-10px;
+	background-image:-webkit-linear-gradient(top, #3fb3fa 0%, #3492c4 100%);
+	color:#fff;
+	border:1px solid #333;
+	border-radius:10px;
+	box-shadow:0 0 1px #333;
+	visibility:visible;
+}
+.youkuhtml5playerbookmark2-close:hover{
+	opacity: 1;
+}
+.youkuhtml5playerbookmark2-close{
+	position:absolute;
+	top:10px;
+	right:10px;
+	width:20px;
+	height:20px;
+	font-size:20px;
+	line-height:20px;
+	font-family: arial,sans-serif;
+	color:#3492c4;
+	text-shadow:0px 0px 10px #333;
+	font-weight: bold;
+	cursor:pointer;
+	opacity: 0;
+	-webkit-transition:opacity 0.3s ease;
+}
+.youkuhtml5playerbookmark2-center{
+	position:absolute;
+	top:30px;
+	right:60px; 
+	bottom:50px;
+	left:60px;
+}
+.youkuhtml5playerbookmark2-center.youkuhtml5playerbookmark2-pause:before{
+	content:' ';
+	display:block;
+	width:90px;
+	height:90px;
+	top:50%;
+	left:50%;
+	font-family:arial,sans-serif;
+	position:absolute;
+	border-radius:50px;
+	border:5px solid #3fb3fa;
+	margin:-50px 0 0 -50px;
+	box-shadow: 0 0 10px #333 inset, 0 0 10px #333;
+	background:rgba(0,0,0,0.5);
+}
+.youkuhtml5playerbookmark2-center.youkuhtml5playerbookmark2-pause:after{
+	content:' ';
+	display:block;
+	width:0px;
+	height:0px;
+	position:absolute;
+	top:50%;
+	left:50%;
+	border-left:40px solid #3fb3fa;
+	border-top:25px solid transparent;
+	border-right:30px solid transparent;
+	border-bottom:25px solid transparent;
+	margin:-25px 0 0 -16px;
+}
