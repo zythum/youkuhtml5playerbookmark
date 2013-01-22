@@ -9,6 +9,7 @@ if(/youku\.com/.test(window.location.host) && window.videoId)                   
 if(/tudou\.com/.test(window.location.host) && window.iid)                         type = "tudou";
 if(/sohu\.com/.test(window.location.host) && window.vid)                          type = "sohu";
 if(/iqiyi\.com/.test(window.location.host) && window.info && window.info.videoId) type = "iqiyi";
+if(/letv\.com/.test(window.location.host) && document.getElementById('fla_box'))  type = "letv";
 
 if(type === false) return false;
 
@@ -72,9 +73,14 @@ var core = {
 		out.onclick = fn;
 		return {
 			 add: add
+			 ,destroy: function(){
+			 	out.onclick = null;
+			 }
 		}
 	}
 };
+
+//==============================
 var cover         = core.cTag('div',  'youkuhtml5playerbookmark2-cover'       );
 var layer         = core.cTag('div',  'youkuhtml5playerbookmark2-layer'       );
 var title         = core.cTag('div',  'youkuhtml5playerbookmark2-title'       , layer, '&#x5988;&#x5988;&#x518D;&#x4E5F;&#x4E0D;&#x7528;&#x62C5;&#x5FC3;&#x6211;&#x7684;macbook&#x53D1;&#x70EB;&#x4E86;&#x8BA1;&#x5212;');
@@ -102,7 +108,8 @@ video.setAttribute('autoplay','true');
 var timer;
 var destroy = true;
 var currentTime = 0;
-var click = core.dClick(layer).add;
+var dclick = core.dClick(layer);
+var click = dclick.add;
 var hdbtns = [];
 var flashElement = undefined;
 var flashElementPlaceHolder = core.cTag('div');
@@ -136,6 +143,8 @@ var job = {
 		destroy = false;
 	}
 }
+//切换清晰度
+var setCurrentTimer;
 click('hd', function(btn){
 	var currentTime = video.currentTime;
 	if(btn.className == 'youkuhtml5playerbookmark2-btn youkuhtml5playerbookmark2-select'){
@@ -148,10 +157,20 @@ click('hd', function(btn){
 	}
 	btn.className = 'youkuhtml5playerbookmark2-btn youkuhtml5playerbookmark2-select';	
 	video.src = btn.getAttribute('data-url');
-	setTimeout(function(){
-		video.currentTime = currentTime;
-	},1000);
+	clearTimeout(setCurrentTimer);
+	//记忆进度条， 内有坑
+	var setCurrentTime = function(){
+		try{
+			clearTimeout(setCurrentTimer);
+			video.currentTime = currentTime;		
+		}catch(e){
+			setCurrentTimer = setTimeout(setCurrentTime,100);
+		}
+	};
+	setCurrentTime();
 });
+
+//点击全屏按钮
 click('fullscreen', function(){
 	if(document.webkitIsFullScreen){
 		document.webkitCancelFullScreen();
@@ -159,17 +178,35 @@ click('fullscreen', function(){
 		player.webkitRequestFullScreen();
 	}
 });
+
+//点击x
 click('close', function(){
-	core.rNode(layer);
-	core.rNode(cover);
-	clearInterval(timer);
-	destroy = true;
-	video.src = '';
-	video.pause();
-	flashElementPlaceHolder.parentNode.insertBefore(flashElement, flashElementPlaceHolder);
-	flashElementPlaceHolder.parentNode.removeChild(flashElementPlaceHolder);
-	delete window.isHTML5PlayerBookMarkCodeByZythum;
+	if(document.webkitIsFullScreen){
+		document.webkitCancelFullScreen();
+	}else{
+		core.rNode(layer);
+		core.rNode(cover);
+		clearInterval(timer);
+		destroy = true;
+		video.src = '';
+		video.pause();
+		flashElementPlaceHolder.parentNode.insertBefore(flashElement, flashElementPlaceHolder);
+		flashElementPlaceHolder.parentNode.removeChild(flashElementPlaceHolder);
+		delete window.isHTML5PlayerBookMarkCodeByZythum;
+		player.removeEventListener('webkitfullscreenchange', playerWebkitfullscreenchangeHandler, false)
+		center.removeEventListener('dblclick', centerDblclickHandler, false);
+		document.body.removeEventListener('keydown', docKeydownHandler, false);
+		video.removeEventListener('canplay', videoCanplayHandler, false);
+		range_p.removeEventListener('mousedown', range_pMousedownHandler, false);
+		range_v.removeEventListener('mousedown', range_vMousedownHandler, false);
+		document.removeEventListener('mouseup', docMouseupHandler, false);
+		document.removeEventListener('mousemove', docMousemoveHandler, false);
+		player.removeEventListener('mousemove', playerMousemoveHandler, false);
+		dclick.destroy();
+	}
 })
+
+//点击暂停
 var centerClickCount = 0;
 var centerDblTimer;
 click('center', function(){
@@ -186,14 +223,20 @@ click('center', function(){
 		centerClickCount = 0;
 	},200);
 });
-center.addEventListener('dblclick', function(){
+
+//双击全屏
+var centerDblclickHandler = function(){
+	if(destroy) return;
 	if(document.webkitIsFullScreen){
 		document.webkitCancelFullScreen();
 	}else{
 		player.webkitRequestFullScreen();
 	}
-},false);
-document.body.addEventListener('keydown',function(e){
+};
+center.addEventListener('dblclick', centerDblclickHandler, false);
+
+//键盘快捷键
+var docKeydownHandler = function(e){
 	if(destroy) return;
 	switch(e.keyCode){
 		case 37: video.currentTime > 20 ? (video.currentTime = video.currentTime - 20): '';e.preventDefault();break;  //left
@@ -202,8 +245,11 @@ document.body.addEventListener('keydown',function(e){
 		case 38: video.volume < 0.9 ? (video.volume = video.volume + 0.1): '';e.preventDefault();break;  //up
 		case 32: video[video.paused?'play':'pause']();break; //space
 	}
-},false);
-player.onwebkitfullscreenchange = function(){
+}
+document.body.addEventListener('keydown', docKeydownHandler, false);
+
+//全屏事件触发回调
+var playerWebkitfullscreenchangeHandler = function(){
 	if(destroy) return;
 	if(document.webkitIsFullScreen){
 		layer.className = 'youkuhtml5playerbookmark2-layer youkuhtml5playerbookmark2-full';
@@ -213,21 +259,33 @@ player.onwebkitfullscreenchange = function(){
 		fullscreen.className = 'youkuhtml5playerbookmark2-btn';
 	}
 }
-video.addEventListener('canplay',function(){
+player.addEventListener('webkitfullscreenchange', playerWebkitfullscreenchangeHandler, false)
+
+//can play 回调
+var videoCanplayHandler = function(){
 	if(destroy) return;
 	video.play();
-},false);
+}
+video.addEventListener('canplay', videoCanplayHandler, false);
+
+
+//进度条拖动
 var FlagByRange_p = false;
 var FlagByRange_v = false;
-range_p.addEventListener('mousedown',function(){
+
+var range_pMousedownHandler = function(){
 	if(destroy) return;
 	FlagByRange_p = true;
-},false);
-range_v.addEventListener('mousedown',function(){
+}
+range_p.addEventListener('mousedown', range_pMousedownHandler, false);
+
+var range_vMousedownHandler = function(){
 	if(destroy) return;
 	FlagByRange_v = true;
-},false);
-document.addEventListener('mouseup',function(e){
+}
+range_v.addEventListener('mousedown', range_vMousedownHandler, false);
+
+var docMouseupHandler = function(e){
 	if(destroy) return;
 	var length = 0;
 	var pst = 0;
@@ -249,8 +307,10 @@ document.addEventListener('mouseup',function(e){
 	}
 	FlagByRange_p = false;
 	FlagByRange_v = false;
-},false);
-document.addEventListener('mousemove',function(e){	
+}
+document.addEventListener('mouseup', docMouseupHandler, false);
+
+var docMousemoveHandler = function(e){	
 	if(destroy) return;
 	var length = 0;
 	var pst = 0;
@@ -270,13 +330,16 @@ document.addEventListener('mousemove',function(e){
 		video.volume = pst;
 		rangebtn_v.style.width = (pst*100)+'%';
 	}
-},false);
+}
+document.addEventListener('mousemove', docMousemoveHandler, false);
 
 var ctrlbarIsShow = true;
 var ctrlbarTimer = setTimeout(function(){
 	ctrlbar.className = 'youkuhtml5playerbookmark2-ctrlbar';
 },3000);
-player.addEventListener('mousemove',function(){
+
+//鼠标移动显示工具
+playerMousemoveHandler = function(){
 	clearTimeout(ctrlbarTimer);
 	if(ctrlbar.className != 'youkuhtml5playerbookmark2-ctrlbar youkuhtml5playerbookmark2-ctrlbarhover'){
 		ctrlbar.className = 'youkuhtml5playerbookmark2-ctrlbar youkuhtml5playerbookmark2-ctrlbarhover';
@@ -284,8 +347,11 @@ player.addEventListener('mousemove',function(){
 	ctrlbarTimer = setTimeout(function(){
 		ctrlbar.className = 'youkuhtml5playerbookmark2-ctrlbar';
 	},3000);
-},false);
+}
 
+player.addEventListener('mousemove', playerMousemoveHandler, false);
+
+//循环获取播放信息
 timer = setInterval(function(){
 	if(!FlagByRange_p){
 		rangebtn_p.style.width = (video.currentTime/video.duration*100)+'%';
@@ -299,7 +365,16 @@ timer = setInterval(function(){
 		center.className = "youkuhtml5playerbookmark2-center";		
 	}
 	progressNum.innerHTML = job.formatTime(video.currentTime) + ' / ' + job.formatTime(video.duration);
-},50);
+	if(video.readyState == 4){
+		title.innerHTML = '&#x5988;&#x5988;&#x518D;&#x4E5F;&#x4E0D;&#x7528;&#x62C5;&#x5FC3;&#x6211;&#x7684;macbook&#x53D1;&#x70EB;&#x4E86;&#x8BA1;&#x5212;';
+	}else{
+		title.innerHTML = '&#x52C7;&#x6562;&#x7684;&#x5C11;&#x5E74;&#x8BF7;&#x8010;&#x5FC3;&#xFF0C;&#x5C11;&#x5973;&#x52AA;&#x529B;&#x7948;&#x7977;&#x4E2D;...';
+	}
+},300);
+
+
+//=============================
+
 
 (function(){
 	if(type==='youku'){
@@ -356,6 +431,42 @@ timer = setInterval(function(){
 		},100);
 		job.setFlashElement(document.getElementById('flash'));
 		job.showPlayer();
+	}
+})();
+
+(function(){
+	var getNextScript = function(el){
+		if(!el) return false;
+		if(!el.nextSibling) return false;
+		if(el.nextSibling.tagName && el.nextSibling.tagName.toUpperCase() == 'SCRIPT'){
+			return el.nextSibling;
+		}else{
+			return getNextScript(el.nextSibling);
+		}
+	}
+	if(type==="letv"){		
+		var flash = document.getElementById('fla_box');
+		var script = getNextScript(flash);
+		if(flash && script){			
+			try{
+				var temp = LELib.Revive.Player;
+				var isfirst = true;
+				var value;
+				LELib.Revive.Player = function(){
+					value = arguments[2];
+				}
+				eval(script.innerHTML);
+				LELib.Revive.Player = temp;
+				var urls = {};
+				if(value.v[1]) urls['&#x6807;&#x6E05;'] = LETV.Base64.decode(value.v[1]);
+				if(value.v[0]) urls['&#x9AD8;&#x6E05;'] = LETV.Base64.decode(value.v[0]);
+				if(urls){
+					job.setUrl(urls);
+					job.setFlashElement(flash);
+					job.showPlayer();
+				}
+			}catch(e){};
+		}
 	}
 })();
 

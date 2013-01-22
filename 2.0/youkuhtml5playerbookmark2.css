@@ -241,6 +241,7 @@
 	margin:-50px 0 0 -50px;
 	box-shadow: 0 0 10px #333 inset, 0 0 10px #333;
 	background:rgba(0,0,0,0.5);
+	visibility:visible;
 }
 .youkuhtml5playerbookmark2-center.youkuhtml5playerbookmark2-pause:after{
 	content:' ';
@@ -255,4 +256,5 @@
 	border-right:30px solid transparent;
 	border-bottom:25px solid transparent;
 	margin:-25px 0 0 -16px;
+	visibility:visible;
 }
