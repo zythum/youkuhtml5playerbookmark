@@ -15,8 +15,9 @@ if(/letv\.com/.test(window.location.host) && document.getElementById('fla_box'))
 if(/video\.sina\.com\.cn/.test(window.location.host) && window.$SCOPE && $SCOPE.video) type = "sina";
 if(/v\.qq\.com/.test(window.location.host) && window.COVER_INFO)                       type = 'qq';
 if(window.XL_CLOUD_FX_INSTANCE)                                                        type = 'xunlei';
-if(/www\.56\.com/.test(window.location.host) && window._page_)                         type = '56';
-
+if(/56\.com/.test(window.location.host) && window._page_)                              type = '56';
+if(/bilibili\.tv/.test(window.location.host) && window.aid)                            type = 'bilibili';
+if(/acfun\.tv/.test(window.location.host) && window.system)                            type = 'acfun';
 if(type === false) return false;
 
 var core = {	
@@ -108,8 +109,14 @@ var rangebtn_p    = core.cTag('div',  'youkuhtml5playerbookmark2-rangebtn'    , 
 var range_v       = core.cTag('div',  'youkuhtml5playerbookmark2-range'       , volume);
 var rangeinner_v  = core.cTag('div',  'youkuhtml5playerbookmark2-rangeinner'  , range_v);
 var rangebtn_v    = core.cTag('div',  'youkuhtml5playerbookmark2-rangebtn'    , rangeinner_v);
+var cmtBtn        = core.cTag('div',  'youkuhtml5playerbookmark2-btn'         , btns, '&#x5F39;&#x5E55;');
 var allscreen     = core.cTag('div',  'youkuhtml5playerbookmark2-btn'         , btns, '&#x6EE1;&#x5C4F;');
 var fullscreen    = core.cTag('div',  'youkuhtml5playerbookmark2-btn'         , btns, '&#x5168;&#x5C4F;');
+var comment       = core.cTag('div',  'youkuhtml5playerbookmark2-comment'     );
+var commentFloat  = core.cTag('div',  'youkuhtml5playerbookmark2-commentFloat', comment);
+var commentBottom = core.cTag('div',  'youkuhtml5playerbookmark2-commentBottom', comment);
+
+cmtBtn.style.display = 'none';
 
 close.setAttribute(      'data-click','close'     );
 fullscreen.setAttribute( 'data-click','fullscreen');
@@ -169,6 +176,116 @@ var job = {
 		document.body.appendChild(layer);
 		destroy = false;
 	}
+	,initComment: function(){
+		cmtBtn.style.display = '';
+		cmtBtn.setAttribute('data-click','cmt');
+		cmtBtn.setAttribute('data-status','show');
+		cmtBtn.className = 'youkuhtml5playerbookmark2-btn youkuhtml5playerbookmark2-select';
+		click('cmt', function(){
+			if(cmtBtn.getAttribute('data-status') =='show'){
+				job.hideComment();
+				cmtBtn.className = 'youkuhtml5playerbookmark2-btn';
+				cmtBtn.setAttribute('data-status', 'hide');
+			}else{
+				job.showComment();
+				cmtBtn.className = 'youkuhtml5playerbookmark2-btn youkuhtml5playerbookmark2-select';
+				cmtBtn.setAttribute('data-status', 'show');
+			}
+		});
+	}
+	,cmt: null
+	,commentLoop: function(){
+		//在下方的showComment 方法会重写这个方法，这个方法会在loop中调用。节省一个轮询时间
+	}
+	,hideComment: function(){
+		commentBottom.innerHTML = commentFloat.innerHTML = '';
+		job.commentLoop = function(){};
+	}
+	,showComment: function(cmt){
+		if(cmt){
+			job.cmt = cmt = cmt.sort(function(a,b){
+				return parseFloat(a.p[0]) - parseFloat(b.p[0]);
+			});
+		}else if(job.cmt){
+			cmt = job.cmt;
+		}else{
+			return;
+		}
+		player.appendChild(comment);
+		var lastTime = 0;
+		var lastInde = 0;
+		job.commentLoop = function(nowTime){
+			if(lastTime === nowTime){
+				return; 
+			}
+			if(lastTime > nowTime){
+				lastTime = nowTime;
+				lastInde = 0
+			}
+			if(lastTime + 1 < nowTime){
+				lastTime = nowTime - 1;
+				lastInde = 0
+			}
+			var aCmt;
+			var range = [lastTime, nowTime];
+			var i = lastInde;
+			while(aCmt = cmt[i++]){
+				var cTime = parseFloat(aCmt.p[0]);				
+				if(cTime < range[0]){
+					continue;
+				}else if(cTime > range[1]){
+					break;
+				}else{
+					if(aCmt.p[1] <= 3) job.pushCmt(aCmt.msg, aCmt.p);
+					if(aCmt.p[1] == 4 || aCmt.p[1] == 5) job.pushCmtBottom(aCmt.msg, aCmt.p);
+				}				
+			}
+			lastTime = nowTime;
+			lastInde = i;
+		};
+	}
+	,pushCmtBottom: function(msg, p){
+		var showTime = 4;
+		var aCmt = core.cTag('div', 'youkuhtml5playerbookmark2-commentBlockBottom');
+		aCmt.appendChild(document.createTextNode(msg));
+		if(!commentBottom.children[0]){
+			commentBottom.appendChild(aCmt);
+		}else{
+			commentBottom.insertBefore(aCmt, commentBottom.children[0]);
+		}
+		aCmt.style.cssText += ';color:#'+p[3].toString(16)+';';
+		setTimeout(function(){
+			aCmt.parentNode.removeChild(aCmt);
+		},showTime*1000);
+	}
+	,line: []
+	,pushCmt: function(msg, p){
+		var showTime = 8;
+		var aCmtWidth = 0;
+		var aCmtHeight = 0;
+		var allWidth  = player.offsetWidth;
+		var aCmt = core.cTag('div', 'youkuhtml5playerbookmark2-commentBlock');
+		aCmt.appendChild(document.createTextNode(msg));
+		commentFloat.appendChild(aCmt);
+		aCmtWidth = aCmt.offsetWidth + 10;
+		aCmtHeight = 25;
+		allWidth = allWidth + aCmtWidth;
+		removeTime = showTime / player.offsetWidth * allWidth;
+		isShowdTime = showTime / player.offsetWidth * aCmtWidth;
+		var lineNum = 0;
+		while(job.line[lineNum]){ lineNum++; }
+		job.line[lineNum] = aCmt;
+		aCmt.style.cssText += ';-webkit-transform: translateX('+allWidth+'px);top:'+lineNum*aCmtHeight+'px;left:0px;color:#'+parseInt(p[3]).toString(16)+';';
+		setTimeout(function(){
+			aCmt.style.cssText += ';-webkit-transform: translateX(-'+aCmtWidth+'px);-webkit-transition:-webkit-transform '+showTime+'s linear;';
+		},0);
+		setTimeout(function(){
+			job.line[lineNum] = undefined;
+		},isShowdTime*1000);
+		setTimeout(function(){
+			aCmt.parentNode.removeChild(aCmt);
+		},removeTime*1000);
+	}
 	,videoLayout: {
 		width: 800,
 		height: 450
@@ -212,7 +329,7 @@ click('hd', function(btn){
 		if(hdbtns[i].className != 'youkuhtml5playerbookmark2-btn')
 			hdbtns[i].className = 'youkuhtml5playerbookmark2-btn';
 	}
-	btn.className = 'youkuhtml5playerbookmark2-btn youkuhtml5playerbookmark2-select';	
+	btn.className = 'youkuhtml5playerbookmark2-btn youkuhtml5playerbookmark2-select';
 	video.src = btn.getAttribute('data-url');
 	clearTimeout(setCurrentTimer);
 	//记忆进度条， 内有坑
@@ -235,6 +352,7 @@ click('fullscreen', function(){
 		player.webkitRequestFullScreen();
 	}
 });
+
 click('allscreen', function(){
 	if(document.webkitIsFullScreen) return;
 	if(!isAllscreen){
@@ -439,6 +557,7 @@ player.addEventListener('mousemove', playerMousemoveHandler, false);
 
 //循环获取播放信息
 var lastTime = -1;
+var num = 0;
 var loop = function(){
 	if(isError) return;
 	if(!FlagByRange_p){
@@ -462,9 +581,11 @@ var loop = function(){
 		if(center.className != "youkuhtml5playerbookmark2-center youkuhtml5playerbookmark2-loading")
 			center.className = "youkuhtml5playerbookmark2-center youkuhtml5playerbookmark2-loading";
 	}
-	lastTime = video.currentTime;
-}
-timer = setInterval(loop,300);
+	//弹幕的loop
+	if(num%2 == 0){ job.commentLoop(lastTime = video.currentTime); }
+	if(++num > 10){ num = 0; }
+};
+timer = setInterval(loop,500);
 loop();
 
 //=============================
@@ -793,7 +914,7 @@ loop();
 		try{
 		var back       = 'HTML5PlayerBookMarkCodeByZythum'+ new Date().getTime();
 		var cache      = new Date().getTime();
-		var sessionid  = document.cookie.match(/sessionid=([0-9a-zA-z]+)/);
+		var sessionid  = document.cookie.match(/sessionid=([0-9a-zA-Z]+)/);
 		var scr        = document.createElement('script');
 		sessionid      = sessionid && sessionid[1];
 		scr.src        = ('http://i.vod.xunlei.com/req_try_vod'+location.search+'&cache='+cache+'&sessionid='+sessionid+'&jsonp='+back+'&platform=1&vip=1').replace('filename','video_name');
@@ -839,11 +960,7 @@ loop();
 					urlList = spec.df;
 					var urls = {};
 					for(var i=spec.df.length-1;i>=0;i--){
-						if(spec.df[i]['type'] == 'normal'){
-							urls['&#x6D41;&#x7545;'] = spec.df[i]['url'];
-						}else if(spec.df[i]['type'] == 'high'){
-							urls['&#x9AD8;&#x6E05;'] = spec.df[i]['url'];
-						}
+						urls[spec.df[i]['type']] = spec.df[i]['url'];
 					}
 					job.setUrl(urls);
 					window[back] = backup;
@@ -857,5 +974,284 @@ loop();
 	}
 })();
 
+//bilibili
+(function(){
+	if(type==="bilibili"){
+		job.setFlashElement(document.getElementById('bofqi'));
+		job.showPlayer();
+		try{
+
+			var back       = 'HTML5PlayerBookMarkCodeByZythum'+ new Date().getTime();
+			var scr        = document.createElement('script');
+			scr.src        = 'http://zythum.sinaapp.com/youkuhtml5playerbookmark/bilibili.php?aid='+aid+'&page='+pageno+'&callback='+back;
+			window[back]   = function(cid, videoInfo, commentInfo){
+				if(cid == -1){
+					setTimeout(function(){
+						var scr        = document.createElement('script');
+						scr.src        = 'http://zythum.sinaapp.com/youkuhtml5playerbookmark/bilibili.php?aid='+aid+'&page='+pageno+'&callback='+back+'&_t='+new Date().getTime();
+						document.body.appendChild(scr);	
+					},1000);
+					return;
+				}
+				var src = videoInfo.durl[0]['url'];
+				if(src.indexOf('v.iask.com') >= 0){
+					(function(){
+						var id = src.match(/vid\=([0-9a-zA-Z]+)/);
+						if(id){
+							id = id[1];
+							src = 'http://edge.v.iask.com.sinastorage.com/'+id+'.mp4';
+						}
+						job.setUrl({
+							'sina': src
+						});
+						job.initComment();
+						job.showComment(commentInfo);
+					})();
+				}else if(src.indexOf('v.youku.com') >=0){
+					(function(){
+						var id = src.match(/vid\/([0-9a-zA-Z]+)\//);
+						if(id){						
+							id = id[1];
+							var back       = 'HTML5PlayerBookMarkCodeByZythum'+ new Date().getTime();
+							var scr        = document.createElement('script');
+							scr.src        = 'http://zythum.sinaapp.com/youkuhtml5playerbookmark/getyoukuid.php?id='+id+'&callback='+back;							
+							window[back]   = function(spec){
+								function getFileIDMixString(seed){
+									mixed = [];
+									source = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ/\\:._-1234567890".split('');
+									var index, len = source.length;
+									for (var i=0; i< len;i++){
+										seed = (seed * 211 + 30031) % 65536;
+										index = Math.floor(seed/65536 * source.length);
+										mixed.push(source[index]);
+										source.splice(index,1);
+									}
+									return mixed.join('');
+								}
+								function getFileID(fileid, seed){
+									var mixed = getFileIDMixString(seed);
+									var ids= fileid.split("*");
+									var realId = [];
+									var idx;
+									for (var i=0; i< ids.length; i++){
+										idx = parseInt(ids[i],10);
+										realId.push(mixed.charAt(idx));
+									}
+									return realId.join('');
+								}						
+								var d      = new Date();
+								var fileid = getFileID(spec.data[0]['streamfileids']['3gphd'], spec.data[0]['seed']);
+								var sid    = d.getTime() + "" + (1E3 + d.getMilliseconds()) + "" + (parseInt(Math.random() * 9E3));
+								var k      = spec.data[0]['segs']['3gphd'][0]['k'];
+								var st     = spec.data[0]['segs']['3gphd'][0]['seconds'];
+								var scr    = document.createElement('script');
+								var back2  = 'HTML5PlayerBookMarkCodeByZythum'+ new Date().getTime();
+								scr.src    = 'http://f.youku.com/player/getFlvPath/sid/'+sid+'_00/st/mp4/fileid/'+fileid+'?K='+k+'&hd=1&myp=0&ts=1156&ypp=0&ymovie=1&callback='+back2;								
+								window[back2] = function(spec){
+									url = spec[0]['server'];
+									job.setUrl({
+										'youku': url
+									})
+									job.initComment();
+									job.showComment(commentInfo);
+									delete window[back2];
+								};
+								document.body.appendChild(scr);	
+							};
+							document.body.appendChild(scr);						
+						}
+					})();
+				}else if(src.indexOf('qq.com') >=0){
+					(function(){
+						var id = src.match(/qq\.com\/([0-9a-zA-Z]+)\.mp4/);
+						if(id){
+							id = id[1];						
+							var scr  = document.createElement('script');
+							var back = 'HTML5PlayerBookMarkCodeByZythum'+ new Date().getTime();
+							scr.src  = 'http://vv.video.qq.com/geturl?otype=json&vid='+id+'&charge=0&callback='+back;
+							window[back] = function(spec){
+								var url = spec.vd.vi[0].url;				
+								job.setUrl({
+									'qq': url
+								});
+								job.initComment();
+								job.showComment(commentInfo);
+							}
+							document.body.appendChild(scr);						
+						}
+					})();
+				}else{
+					job.setUrl({
+						'bili': src
+					});
+					job.initComment();
+					job.showComment(commentInfo);
+				}
+			}			
+			document.body.appendChild(scr);	
+		}catch(e){
+			isError = true;
+			title.innerHTML = MSG_ERROR;
+		};
+	}
+})();
+
+//acfun 
+(function(){
+	if(type==="acfun"){
+		job.setFlashElement(document.getElementById('area-player'));
+		job.showPlayer();
+		try{
+			var aid        = location.href.match(/\/(ac[0-9a-zA-Z\_]+)/)[1];
+			var back       = 'HTML5PlayerBookMarkCodeByZythum'+ new Date().getTime();
+			var scr        = document.createElement('script');
+			scr.src        = 'http://zythum.sinaapp.com/youkuhtml5playerbookmark/acfun.php?aid='+aid+'&callback='+back;
+			window[back]   = function(vid, videoInfo, commentInfo){
+				if(vid == -1){
+					setTimeout(function(){
+						var scr = document.createElement('script');
+						scr.src = 'http://zythum.sinaapp.com/youkuhtml5playerbookmark/acfun.php?aid='+aid+'&callback='+back+'&_t='+new Date().getTime();
+						document.body.appendChild(scr);	
+					},1000);
+					return;
+				}
+				if(videoInfo.toLowerCase() == 'sina'){
+					(function(){
+						var id = vid;
+						if(id){
+							src = 'http://edge.v.iask.com.sinastorage.com/'+id+'.mp4';
+						}
+						job.setUrl({
+							'sina': src
+						});
+						job.initComment();
+						job.showComment(commentInfo);
+					})();
+				}else if(videoInfo.toLowerCase() == 'youku'){
+					(function(){
+						var id = vid;
+						if(id){						
+							var back       = 'HTML5PlayerBookMarkCodeByZythum'+ new Date().getTime();
+							var scr        = document.createElement('script');
+							scr.src        = 'http://zythum.sinaapp.com/youkuhtml5playerbookmark/getyoukuid.php?id='+id+'&callback='+back;							
+							window[back]   = function(spec){
+								function getFileIDMixString(seed){
+									mixed = [];
+									source = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ/\\:._-1234567890".split('');
+									var index, len = source.length;
+									for (var i=0; i< len;i++){
+										seed = (seed * 211 + 30031) % 65536;
+										index = Math.floor(seed/65536 * source.length);
+										mixed.push(source[index]);
+										source.splice(index,1);
+									}
+									return mixed.join('');
+								}
+								function getFileID(fileid, seed){
+									var mixed = getFileIDMixString(seed);
+									var ids= fileid.split("*");
+									var realId = [];
+									var idx;
+									for (var i=0; i< ids.length; i++){
+										idx = parseInt(ids[i],10);
+										realId.push(mixed.charAt(idx));
+									}
+									return realId.join('');
+								}						
+								var d      = new Date();
+								var fileid = getFileID(spec.data[0]['streamfileids']['3gphd'], spec.data[0]['seed']);
+								var sid    = d.getTime() + "" + (1E3 + d.getMilliseconds()) + "" + (parseInt(Math.random() * 9E3));
+								var k      = spec.data[0]['segs']['3gphd'][0]['k'];
+								var st     = spec.data[0]['segs']['3gphd'][0]['seconds'];
+								var scr    = document.createElement('script');
+								var back2  = 'HTML5PlayerBookMarkCodeByZythum'+ new Date().getTime();
+								scr.src    = 'http://f.youku.com/player/getFlvPath/sid/'+sid+'_00/st/mp4/fileid/'+fileid+'?K='+k+'&hd=1&myp=0&ts=1156&ypp=0&ymovie=1&callback='+back2;								
+								window[back2] = function(spec){
+									url = spec[0]['server'];
+									job.setUrl({
+										'youku': url
+									})
+									job.initComment();
+									job.showComment(commentInfo);
+									delete window[back2];
+								};
+								document.body.appendChild(scr);	
+							};
+							document.body.appendChild(scr);						
+						}
+					})();
+				}else if(videoInfo.toLowerCase() == 'qq'){
+					(function(){
+						var id = vid;
+						if(id){
+							var scr  = document.createElement('script');
+							var back = 'HTML5PlayerBookMarkCodeByZythum'+ new Date().getTime();
+							scr.src  = 'http://vv.video.qq.com/geturl?otype=json&vid='+id+'&charge=0&callback='+back;
+							window[back] = function(spec){
+								var url = spec.vd.vi[0].url;				
+								job.setUrl({
+									'qq': url
+								});
+								job.initComment();
+								job.showComment(commentInfo);
+							}
+							document.body.appendChild(scr);						
+						}
+					})();
+				}else if(videoInfo.toLowerCase() == 'tudou'){
+					(function(){
+						var iid = vid;
+						try{
+							var pad = function(num, n) {
+						        return (new Array(n >(''+num).length ? (n - (''+num).length+1) : 0).join('0') + num);
+							}
+							iidStr = pad(iid,9).match(/(\d{3})(\d{3})(\d{3})/);	
+							var idEncodeed = iidStr[1] + '/' + iidStr[2] + '/' + iidStr[3];
+							if(canPlayM3U8){
+								//safari下使用m3u8
+								job.setUrl({
+									'todou&#x6807;&#x6E05;': 'http://m3u8.tdimg.com/'+idEncodeed+'/'+'2.m3u8',
+									'todou&#x9AD8;&#x6E05;': 'http://m3u8.tdimg.com/'+idEncodeed+'/'+'3.m3u8',			
+									'todou&#x539F;&#x753B;': 'http://m3u8.tdimg.com/'+idEncodeed+'/'+'99.m3u8'
+								})
+							}else{
+								//chrome使用mp4
+								var scr  = document.createElement('script');
+								var back = 'HTML5PlayerBookMarkCodeByZythum'+ new Date().getTime();
+								scr.src  = 'http://vr.tudou.com/v2proxy/v2.js?it='+iid+'&st=52%2C53%2C54&pw=&jsonp='+back;
+								window[back] = function(spec){
+									var urls = {};
+									var list = {
+										52: '&#x672A;&#x77E5;0',
+										53: '&#x672A;&#x77E5;1',
+										54: '&#x672A;&#x77E5;2'
+									}
+									try{
+										for(var i=0;i<spec.urls.length;i++){
+											urls['todou'+list[ spec.urls[i]['st'] ]] = spec.urls[i]['url'];
+										}
+										job.setUrl(urls);
+									}catch(e){
+										isError = true;
+										title.innerHTML = 'mp4&#x8F6C;&#x7801;&#x672A;&#x5B8C;&#x6210;&#xFF0C;&#x4F11;&#x606F;&#x4F11;&#x606F;&#x4E00;&#x4E0B;&#xFF1F;&#x8981;&#x4E0D;&#x5148;&#x6253;&#x4E2A;&#x98DE;&#x673A;&#xFF1F;';
+									};
+									delete window[back];
+								}
+								document.body.appendChild(scr);		
+							}
+						}catch(e){
+							isError = true;
+							title.innerHTML = MSG_ERROR;
+						}
+					})();
+				}
+			}
+			document.body.appendChild(scr);	
+		}catch(e){
+			isError = true;
+			title.innerHTML = MSG_ERROR;
+		};
+	}
+})();
 
 })();

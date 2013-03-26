@@ -6,7 +6,9 @@
 		-webkit-transform: rotate(360deg);
 	}
 }
-
+.youkuhtml5playerbookmark2-layer div{
+	-webkit-box-sizing: content-box;
+}
 .youkuhtml5playerbookmark2-cover{
 	position:fixed;
 	top:0;
@@ -79,6 +81,7 @@
 	right:0;
 	bottom:0;
 	left:0;
+	z-index:2;
 }
 .youkuhtml5playerbookmark2-ctrlbar.youkuhtml5playerbookmark2-ctrlbarhover .youkuhtml5playerbookmark2-progressNum{
 	opacity: 1;
@@ -174,6 +177,7 @@
 	color:#fac633;
 }
 .youkuhtml5playerbookmark2-range{
+	margin:0;
 	width:100%;
 	height:100%;
 	border-radius:7px;
@@ -182,6 +186,7 @@
 	position:relative;
 }
 .youkuhtml5playerbookmark2-rangeinner{
+	margin:0;
 	position: absolute;
 	top:1px;
 	bottom:1px;
@@ -189,6 +194,7 @@
 	left:1px;
 }
 .youkuhtml5playerbookmark2-rangebtn{
+	margin:0;
 	height:100%;
 	width:0%;
 	border-radius:6px;
@@ -276,7 +282,8 @@
 	visibility:visible;
 }
 .youkuhtml5playerbookmark2-center.youkuhtml5playerbookmark2-loading .youkuhtml5playerbookmark2-center-before{	
-	font-size:18px;
+	font-size:20px;
+	letter-spacing:-2px;
 	font-weight: bolder;
 	display:block;
 	width:90px;
@@ -302,3 +309,54 @@
 .youkuhtml5playerbookmark2-center.youkuhtml5playerbookmark2-loading .youkuhtml5playerbookmark2-center-before:before{
 	content:'LOADING';
 }
+
+
+/*弹幕*/
+.youkuhtml5playerbookmark2-comment{
+	position: absolute;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+	pointer-events:none;
+	overflow:hidden;
+}
+.youkuhtml5playerbookmark2-commentFloat{
+	position: absolute;
+	top:10px;
+	left:0;
+	right:0;
+	bottom:0;
+	pointer-events:none;
+}
+.youkuhtml5playerbookmark2-commentBottom{
+	position: absolute;
+	left:0;
+	right:0;
+	bottom:0;
+	pointer-events:none;
+}
+.youkuhtml5playerbookmark2-commentBlock{
+	display:inline-block;
+	position:absolute;
+	color:#fff;
+	font-size:22px;
+	white-space: nowrap;
+	font-weight: bold;
+	letter-spacing: -3px;
+	text-shadow: 1px 1px 2px #000;
+	pointer-events:none;
+}
+.youkuhtml5playerbookmark2-commentBlockBottom{
+	color:#fff;
+	width:auto;
+	display:block;
+	font-weight: bold;
+	font-size:22px;
+	letter-spacing: -3px;
+	text-shadow: 1px 1px 2px #000;
+	pointer-events:none;
+	text-align: center;
+	padding-bottom:8px;
+}
+
