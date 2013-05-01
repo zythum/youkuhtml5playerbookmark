@@ -1,0 +1,1 @@
+youkuhtml5playerbookmark2.init();

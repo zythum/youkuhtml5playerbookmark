@@ -308,8 +308,8 @@
 }
 .youkuhtml5playerbookmark2-center.youkuhtml5playerbookmark2-loading .youkuhtml5playerbookmark2-center-before:before{
 	content:'LOADING';
+	visibility: visible;
 }
-
 
 /*弹幕*/
 .youkuhtml5playerbookmark2-comment{
