@@ -112,6 +112,7 @@ var youkuhtml5playerbookmark2 = (function(){
 	var comment       = core.cTag('div',  CSSp+'comment'     );
 	var commentFloat  = core.cTag('div',  CSSp+'commentFloat', comment);
 	var commentBottom = core.cTag('div',  CSSp+'commentBottom', comment);
+	var logArea       = core.cTag('div',  CSSp+'logArea'     );	
 	cmtBtn.style.display = 'none';
 	close.setAttribute(      'data-click', 'close'     );
 	fullscreen.setAttribute( 'data-click', 'fullscreen');
@@ -172,6 +173,7 @@ var youkuhtml5playerbookmark2 = (function(){
 		,showPlayer: function(){
 			document.body.appendChild(cover);
 			document.body.appendChild(layer);
+			document.body.appendChild(logArea);
 			destroy = false;
 		}
 		,initComment: function(){
@@ -314,6 +316,13 @@ var youkuhtml5playerbookmark2 = (function(){
 				layer.style.marginTop  = '-' + job.videoLayout.height/2 + 'px';
 			}
 		}
+		,log: function(log){
+			window.console && window.console.log(log);
+			var l = core.cTag('div',  CSSp+'log', logArea, log);
+			setTimeout(function(){
+				core.rNode(l);
+			},1000);
+		}
 	}
 	//切换清晰度
 	var setCurrentTimer;
@@ -369,6 +378,7 @@ var youkuhtml5playerbookmark2 = (function(){
 		}else{
 			core.rNode(layer);
 			core.rNode(cover);
+			core.rNode(logArea);
 			// clearInterval(timer);
 			clearTimeout(timer);
 			destroy = true;
@@ -553,7 +563,7 @@ var youkuhtml5playerbookmark2 = (function(){
 			(rangebtn_v.style.width = (video.volume*100)+'%');
 		}	
 		progressNum.innerHTML = job.formatTime(video.currentTime) + ' / ' + job.formatTime(video.duration);
-		if(video.duration <= 10 && job.url.length){
+		if(video.duration == 10 && job.url.length){
 			//如果第一个视频没有解码好。用次之的
 			video.src = job.url[0];
 		}
@@ -585,7 +595,6 @@ var youkuhtml5playerbookmark2 = (function(){
 		timer = setTimeout(loop, 500);
 	};
 	loop();
-
 	var site = [];	
 	return {
 		add: function(callback){
@@ -593,31 +602,30 @@ var youkuhtml5playerbookmark2 = (function(){
 			try{ callback && site.push( callback(core, canPlayM3U8) ) }catch(e){};
 		},
 		init: function(){
-			//test
-			// job.showPlayer();
-			// job.setUrl({
-			// 	'高清':'Evangelion Shin Gekijouban Q (BDrip 1280x544 x264 AAC)-ank.mp4'
-			// });
-			//test
-
 			for(var i=0,len=site.length; i< len; i++){
-				if(site[i] && site[i].reg && site[i].call){
+				if(site[i] && site[i].reg && site[i].call){										
 					job.showPlayer();
+					job.log('&#x64AD;&#x653E;&#x5668;&#x521D;&#x59CB;&#x5316;');
 					try{
 						site[i].call(function(_){
 							job.setUrl(_.urls);
-							job.setFlashElement( core.byId(_.flashElementId) );						
+							job.log('&#x83B7;&#x53D6;&#x64AD;&#x653E;&#x6E90;&#x5730;&#x5740;');
+							job.setFlashElement( core.byId(_.flashElementId) );
 							if(_.comment){
 								job.initComment();
+								job.log('&#x521D;&#x59CB;&#x5316;&#x5F39;&#x5E55;');
 								setTimeout(function(){
 									job.showComment(_.comment);
+									job.log('&#x751F;&#x6210;&#x5F39;&#x5E55;');
 								},100);
 							}
 						});
 					}catch(e){
 						isError = true;
 						title.innerHTML = MSG_ERROR;
+						job.log('&#x64AD;&#x653E;&#x5931;&#x8D25;&#x3002;&#x8BF7;&#x628A;url&#x5730;&#x5740;&#x8D4B;&#x503C;&#x3002;&#x4E0A;&#x5FAE;&#x535A;@zythum_&#x6731;&#x4E00;&#x7AE5;&#x978B;');
 					}
+					job.log('&#x51C6;&#x5907;&#x5B8C;&#x6BD5;');
 					break;
 				}
 			}

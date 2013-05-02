@@ -419,4 +419,20 @@
 	text-align: center;
 	padding-bottom:8px;
 }
-
+.youkuhtml5playerbookmark2-logArea{
+	position:fixed;
+	left:0;
+	bottom:0;
+	z-index:9999999;
+}
+.youkuhtml5playerbookmark2-log{
+	white-space: nowrap;
+	padding-left:10px;
+	float:left;
+	clear:both;
+	font-size: 12px;
+}
+.youkuhtml5playerbookmark2-log:after{
+	font-family:"FontAwesome";
+	content:'  \f046';
+}
