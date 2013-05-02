@@ -93,11 +93,12 @@ var youkuhtml5playerbookmark2 = (function(){
 	var player        = core.cTag('div',  CSSp+'player'      , layer);
 	var video         = core.cTag('video',CSSp+'video'       , player);
 	var ctrlbar       = core.cTag('div',  CSSp+'ctrlbar '+CSSp+'ctrlbarhover', player);
-	var progressNum   = core.cTag('div',  CSSp+'progressNum' , ctrlbar);
-	var progress      = core.cTag('div',  CSSp+'progress'    , ctrlbar);
-	var volume        = core.cTag('div',  CSSp+'volume'      , ctrlbar);
-	var btns          = core.cTag('div',  CSSp+'btns'        , ctrlbar);
-	var close         = core.cTag('div',  CSSp+'close'       , ctrlbar,'X');
+	var ctrlbarb      = core.cTag('div',  CSSp+'ctrlbarbottom', ctrlbar);
+	var progressNum   = core.cTag('div',  CSSp+'progressNum' , ctrlbarb);
+	var progress      = core.cTag('div',  CSSp+'progress'    , ctrlbarb);
+	var volume        = core.cTag('div',  CSSp+'volume'      , ctrlbarb);
+	var btns          = core.cTag('div',  CSSp+'btns'        , ctrlbarb);
+	var close         = core.cTag('div',  CSSp+'close'       , ctrlbar);
 	var center        = core.cTag('div',  CSSp+'center'      , ctrlbar,'<div class="'+CSSp+'center-before"></div><div class="'+CSSp+'center-after"></div>');
 	var range_p       = core.cTag('div',  CSSp+'range'       , progress);
 	var rangeinner_p  = core.cTag('div',  CSSp+'rangeinner'  , range_p);
@@ -105,9 +106,9 @@ var youkuhtml5playerbookmark2 = (function(){
 	var range_v       = core.cTag('div',  CSSp+'range'       , volume);
 	var rangeinner_v  = core.cTag('div',  CSSp+'rangeinner'  , range_v);
 	var rangebtn_v    = core.cTag('div',  CSSp+'rangebtn'    , rangeinner_v);
-	var cmtBtn        = core.cTag('div',  CSSp+'btn'         , btns, '&#x5F39;&#x5E55;');
-	var allscreen     = core.cTag('div',  CSSp+'btn'         , btns, '&#x6EE1;&#x5C4F;');
-	var fullscreen    = core.cTag('div',  CSSp+'btn'         , btns, '&#x5168;&#x5C4F;');
+	var cmtBtn        = core.cTag('div',  CSSp+'btn '+CSSp+'cmtBtn'    , btns);
+	var allscreen     = core.cTag('div',  CSSp+'btn '+CSSp+'allscreen' , btns);
+	var fullscreen    = core.cTag('div',  CSSp+'btn '+CSSp+'fullscreen', btns);
 	var comment       = core.cTag('div',  CSSp+'comment'     );
 	var commentFloat  = core.cTag('div',  CSSp+'commentFloat', comment);
 	var commentBottom = core.cTag('div',  CSSp+'commentBottom', comment);
@@ -130,6 +131,7 @@ var youkuhtml5playerbookmark2 = (function(){
 	var flashElementPlaceHolder = core.cTag('div');
 	var job = {
 		setUrl: function(obj){
+			job.url = [];
 			var i, btn;
 			for(i in obj){
 				btn = core.cTag('div', CSSp+'btn' , null, i);
@@ -137,9 +139,11 @@ var youkuhtml5playerbookmark2 = (function(){
 				btn.setAttribute('data-click','hd');
 				btn.setAttribute('data-url',obj[i]);
 				hdbtns.push(btn);
+				job.url.push(obj[i]);
 			}
 			btn.className = CSSp+'btn '+CSSp+'select';
 			video.src = obj[i];
+			job.url.pop();
 		}
 		,addUrl: function(obj){
 			var i, btn;
@@ -149,6 +153,7 @@ var youkuhtml5playerbookmark2 = (function(){
 				btn.setAttribute('data-click','hd');
 				btn.setAttribute('data-url',obj[i]);
 				hdbtns.push(btn);
+				job.url && job.url.push(obj[i]);
 			}
 		}
 		,setFlashElement: function(el){
@@ -173,15 +178,15 @@ var youkuhtml5playerbookmark2 = (function(){
 			cmtBtn.style.display = '';
 			cmtBtn.setAttribute('data-click','cmt');
 			cmtBtn.setAttribute('data-status','show');
-			cmtBtn.className = CSSp+'btn '+CSSp+'select';
+			cmtBtn.className = CSSp+'btn '+CSSp+'select '+CSSp+'cmtBtn';
 			click('cmt', function(){
 				if(cmtBtn.getAttribute('data-status') =='show'){
 					job.hideComment();
-					cmtBtn.className = CSSp+'btn';
+					cmtBtn.className = CSSp+'btn '+CSSp+'cmtBtn';;
 					cmtBtn.setAttribute('data-status', 'hide');
 				}else{
 					job.showComment();
-					cmtBtn.className = CSSp+'btn '+CSSp+'select';
+					cmtBtn.className = CSSp+'btn '+CSSp+'select '+CSSp+'cmtBtn';;
 					cmtBtn.setAttribute('data-status', 'show');
 				}
 			});
@@ -348,11 +353,11 @@ var youkuhtml5playerbookmark2 = (function(){
 		if(document.webkitIsFullScreen) return;
 		if(!isAllscreen){
 			layer.className = CSSp+'layer '+CSSp+'full';
-			allscreen.className = CSSp+'btn '+CSSp+'select';
+			allscreen.className = CSSp+'btn '+CSSp+'select '+CSSp+'allscreen';
 			isAllscreen = true;
 		}else{
 			layer.className = CSSp+'layer';
-			allscreen.className = CSSp+'btn';
+			allscreen.className = CSSp+'btn '+CSSp+'allscreen';
 			isAllscreen = false;
 		}
 		job.fixVideoLayout();
@@ -428,11 +433,11 @@ var youkuhtml5playerbookmark2 = (function(){
 	var docKeydownHandler = function(e){
 		if(destroy) return;
 		switch(e.keyCode){
-			case 37: video.currentTime > 20 ? (video.currentTime = video.currentTime - 20): '';e.preventDefault();break;  //left
-			case 39: video.currentTime < video.duration - 20 ? (video.currentTime = video.currentTime + 20): '';e.preventDefault();break;  //right
-			case 40: video.volume > 0.1 ? (video.volume = video.volume - 0.1): '';e.preventDefault();break;  //down
-			case 38: video.volume < 0.9 ? (video.volume = video.volume + 0.1): '';e.preventDefault();break;  //up
-			case 32: video[video.paused?'play':'pause']();break; //space
+			case 37: video.currentTime > 20 ? (video.currentTime = video.currentTime - 20): '';e.preventDefault();e.preventDefault();break;  //left
+			case 39: video.currentTime < video.duration - 20 ? (video.currentTime = video.currentTime + 20): '';e.preventDefault();e.preventDefault();break;  //right
+			case 40: video.volume > 0.1 ? (video.volume = video.volume - 0.1): '';e.preventDefault();e.preventDefault();break;  //down
+			case 38: video.volume < 0.9 ? (video.volume = video.volume + 0.1): '';e.preventDefault();e.preventDefault();break;  //up
+			case 32: video[video.paused?'play':'pause']();e.preventDefault();break; //space
 		}
 	}
 	document.body.addEventListener('keydown', docKeydownHandler, false);
@@ -442,11 +447,11 @@ var youkuhtml5playerbookmark2 = (function(){
 		job.fixVideoLayout();
 		if(document.webkitIsFullScreen){
 			layer.className = CSSp+'layer '+CSSp+'full';
-			fullscreen.className = CSSp+'btn '+CSSp+'select';
+			fullscreen.className = CSSp+'btn '+CSSp+'select '+CSSp+'fullscreen';
 			allscreen.style.display = 'none';
 		}else{
 			layer.className = isAllscreen ? CSSp+'layer '+CSSp+'full' : CSSp+'layer';
-			fullscreen.className = CSSp+'btn';
+			fullscreen.className = CSSp+'btn '+CSSp+'fullscreen';
 			allscreen.style.display = '';
 		}
 	}
@@ -548,6 +553,10 @@ var youkuhtml5playerbookmark2 = (function(){
 			(rangebtn_v.style.width = (video.volume*100)+'%');
 		}	
 		progressNum.innerHTML = job.formatTime(video.currentTime) + ' / ' + job.formatTime(video.duration);
+		if(video.duration <= 10 && job.url.length){
+			//如果第一个视频没有解码好。用次之的
+			video.src = job.url[0];
+		}
 		if(video.paused){
 			 center.className != CSSp+'center '+CSSp+'pause' &&
 			(center.className = CSSp+'center '+CSSp+'pause');
@@ -584,6 +593,13 @@ var youkuhtml5playerbookmark2 = (function(){
 			try{ callback && site.push( callback(core, canPlayM3U8) ) }catch(e){};
 		},
 		init: function(){
+			//test
+			// job.showPlayer();
+			// job.setUrl({
+			// 	'高清':'Evangelion Shin Gekijouban Q (BDrip 1280x544 x264 AAC)-ank.mp4'
+			// });
+			//test
+
 			for(var i=0,len=site.length; i< len; i++){
 				if(site[i] && site[i].reg && site[i].call){
 					job.showPlayer();

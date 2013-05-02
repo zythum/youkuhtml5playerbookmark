@@ -1,3 +1,12 @@
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('https://github.com/zythum/Font-Awesome/raw/master/font/fontawesome-webfont.eot?v=3.0.1');
+  src: url('https://github.com/zythum/Font-Awesome/raw/master/font/fontawesome-webfont.eot?#iefix&v=3.0.1') format('embedded-opentype'),
+    url('https://github.com/zythum/Font-Awesome/raw/master/font/fontawesome-webfont.woff?v=3.0.1') format('woff'),
+    url('https://github.com/zythum/Font-Awesome/raw/master/font/fontawesome-webfont.ttf?v=3.0.1') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 @-webkit-keyframes rotate{
 	0%{
 		-webkit-transform: rotate(0deg);
@@ -6,8 +15,17 @@
 		-webkit-transform: rotate(360deg);
 	}
 }
+@-moz-keyframes rotate{
+	0%{
+		-moz-transform: rotate(0deg);
+	}
+	100%{
+		-moz-transform: rotate(360deg);
+	}
+}
 .youkuhtml5playerbookmark2-layer div{
 	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
 }
 .youkuhtml5playerbookmark2-cover{
 	position:fixed;
@@ -17,6 +35,7 @@
 	right:0;
 	background:rgba(255,255,255,0.9);
 	-webkit-user-select:none;
+	-moz-user-select:none;
 	z-index:9999998;
 }
 .youkuhtml5playerbookmark2-cover.youkuhtml5playerbookmark2-block{
@@ -26,6 +45,7 @@
 	box-shadow:none;
 	overflow: hidden;
 	-webkit-filter:none;
+	-moz-filter:none;
 }
 .youkuhtml5playerbookmark2-layer{
 	position:fixed;
@@ -35,18 +55,21 @@
 	height:450px;
 	margin:-240px 0 0 -400px;
 	-webkit-user-select:none;
+	-moz-user-select:none;
 	z-index:9999999;
 	font-weight:bold;
-	box-shadow:1px 1px 2px #333;
+	box-shadow:0px 0px 3px #333;
 	-webkit-filter:drop-shadow(0px 0px 15px rgba(63,179,250,0.7));
+	-moz-filter:drop-shadow(0px 0px 15px rgba(63,179,250,0.7));
 	-webkit-transition:width 0.2s ease, height 0.2s ease;
+	-moz-transition:width 0.2s ease, height 0.2s ease;
 }
 .youkuhtml5playerbookmark2-layer.youkuhtml5playerbookmark2-full{
 	margin:0px;
 	top:0;
 	left:0;
-	bottom:0;
-	right:0;
+	bottom:auto;
+	right:auto;
 	width:100%;
 	height:100%;
 }
@@ -63,6 +86,7 @@
 	font-family:arial,sans-serif;
 	white-space:nowrap;
 	background-image:-webkit-linear-gradient(top, #3fb3fa 0%, #3492c4 100%);
+	background-image:-moz-linear-gradient(top, #3fb3fa 0%, #3492c4 100%);
 }
 .youkuhtml5playerbookmark2-player{
 	width:100%;
@@ -82,108 +106,142 @@
 	bottom:0;
 	left:0;
 	z-index:2;
+	overflow:hidden;
 }
-.youkuhtml5playerbookmark2-ctrlbar.youkuhtml5playerbookmark2-ctrlbarhover .youkuhtml5playerbookmark2-progressNum{
-	opacity: 1;
+.youkuhtml5playerbookmark2-ctrlbarbottom{
+	position:absolute;
+	height:40px;
+	right:0;
+	bottom:0;
+	left:0;
+	box-shadow: 0 0 2px #333;
+	background-image:-webkit-linear-gradient(top, #fcfcfc 0%, #e2e2e2 100%);
+	background-image:-moz-linear-gradient(top, #fcfcfc 0%, #e2e2e2 100%);
+	-webkit-transition:opacity 0.3s ease;
+	-moz-transition:opacity 0.3s ease;
+	opacity:0;
 }
-.youkuhtml5playerbookmark2-ctrlbar.youkuhtml5playerbookmark2-ctrlbarhover .youkuhtml5playerbookmark2-progress{
-	opacity: 1;
+.youkuhtml5playerbookmark2-ctrlbar.youkuhtml5playerbookmark2-ctrlbarhover .youkuhtml5playerbookmark2-ctrlbarbottom,
+.youkuhtml5playerbookmark2-ctrlbar.youkuhtml5playerbookmark2-ctrlbarhover .youkuhtml5playerbookmark2-close,
+.youkuhtml5playerbookmark2-ctrlbarbottom:hover{
+	opacity: 0.9;
 }
-.youkuhtml5playerbookmark2-ctrlbar.youkuhtml5playerbookmark2-ctrlbarhover .youkuhtml5playerbookmark2-volume{
-	opacity: 1;
+.youkuhtml5playerbookmark2-volume::after,
+.youkuhtml5playerbookmark2-progress::after,
+.youkuhtml5playerbookmark2-progressNum::after{
+	content:'';
+	display:block;
+	position:absolute;
+	top:0;
+	right:0;
+	bottom:0;
+	width:1px;
+	box-shadow: 0 0 2px #999 inset;
 }
-.youkuhtml5playerbookmark2-ctrlbar.youkuhtml5playerbookmark2-ctrlbarhover .youkuhtml5playerbookmark2-btns{
-	opacity: 1;
-}
-.youkuhtml5playerbookmark2-ctrlbar.youkuhtml5playerbookmark2-ctrlbarhover .youkuhtml5playerbookmark2-close{
-	opacity: 1;
-}
-.youkuhtml5playerbookmark2-progressNum:hover{
-	opacity: 1;
+.youkuhtml5playerbookmark2-btn::after{
+	content:'';
+	display:block;
+	position:absolute;
+	top:0;
+	left:0;
+	bottom:-4px;
+	width:1px;
+	box-shadow: 0 0 2px #999 inset;	
 }
 .youkuhtml5playerbookmark2-progressNum{
 	position:absolute;
-	left:20px;
-	bottom:17px;
-	width:120px;
-	height:20px;
+	top:0;
+	bottom:0;
+	width:110px;
+	left:0px;
 	text-align:center;
-	line-height:20px;
-	font-size:13px;
-	font-weight:bold;
-	color:#fff;
-	text-shadow:0 0 3px #000;
+	line-height: 40px;
+	font-size:14px;
+	color:#333;
+	font-weight: bold;
 	font-family: arial, sans-serif;
 	white-space:nowrap;
-	opacity: 0;
-	-webkit-transition:opacity 0.3s ease;
-}
-.youkuhtml5playerbookmark2-progress:hover{
-	opacity: 1;
+	letter-spacing:-1px;
+	overflow:hidden;
 }
 .youkuhtml5playerbookmark2-progress{
 	position:absolute;
-	left:150px;
-	bottom:20px;
-	right:220px;
-	height:14px;
+	top:0;
+	bottom:0;
+	left:110px;
+	right:400px;
 	cursor:pointer;
-	opacity: 0;
-	-webkit-transition:opacity 0.3s ease;
-}
-.youkuhtml5playerbookmark2-volume:hover{
-	opacity: 1;
 }
 .youkuhtml5playerbookmark2-volume{
 	position:absolute;
-	right:100px;
-	bottom:20px;
+	right:280px;
+	bottom:0px;
+	top:0;
 	width:100px;
-	height:14px;
 	cursor:pointer;
-	opacity: 0;
-	-webkit-transition:opacity 0.3s ease;
+}
+.youkuhtml5playerbookmark2-volume::before{
+	font-family: 'FontAwesome';
+	font-weight: normal;
+	content:'\f028';
+	position:absolute;
+	display:block;
+	top:1px;
+	font-size:18px;
+	left:-14px;
+	width:18px;
+	bottom:0;
+	text-align: center;
+	line-height: 40px;	
+	color:#333;
 }
 .youkuhtml5playerbookmark2-btns{
 	position:absolute;
-	right:20px;
-	bottom:8px;
-	width:40px;
-	opacity: 0;
-	-webkit-transition:opacity 0.3s ease;
+	right:0px;
+	top:0;
+	bottom:0px;
+	text-align:right;
 }
 .youkuhtml5playerbookmark2-btn{
-	width:39px;
-	height:20px;
-	border:1px solid #333;
-	line-height:20px;
+	position:relative;
+	height:36px;
+	min-width: 40px;
+	line-height:38px;
 	text-align:center;
-	margin-bottom:10px;
-	float:right;
+	display:inline-block;
 	cursor:pointer;
 	font-size:13px;
-	color:#eee;
+	color:#333;
 	font-family: arial,sans-serif;
-	background-image: -webkit-linear-gradient(top,#3fb3fa,#3492c4);
-	box-shadow:0px 3px 0px #003366;
-	border-radius:3px;
 	font-weight:bold;
 }
+.youkuhtml5playerbookmark2-btn.youkuhtml5playerbookmark2-cmtBtn::before{
+	font-family: 'FontAwesome';
+	content:'\f086';
+}
+.youkuhtml5playerbookmark2-btn.youkuhtml5playerbookmark2-allscreen::before{
+	font-family: 'FontAwesome';
+	content:'\f065';
+}
+.youkuhtml5playerbookmark2-btn.youkuhtml5playerbookmark2-fullscreen::before{
+	font-family: 'FontAwesome';
+	content:'\f0b2';
+}
 .youkuhtml5playerbookmark2-select{
-	background-image: -webkit-linear-gradient(bottom,#3fb3fa,#3492c4);
-	box-shadow:0px 1px 0px #003366;
-	position:relative;
-	top:1.4px;
-	color:#fac633;
+	background-image:-webkit-linear-gradient(bottom, #fcfcfc 0%, #e2e2e2 100%);
+	background-image:-moz-linear-gradient(bottom, #fcfcfc 0%, #e2e2e2 100%);
+	border-bottom: 4px solid #3fb3fa;
 }
 .youkuhtml5playerbookmark2-range{
-	margin:0;
-	width:100%;
-	height:100%;
+	position:absolute;
+	left:10px;
+	top:50%;
+	margin-top:-4px;
+	height:8px;
+	right:20px;
 	border-radius:7px;
 	box-shadow:0 0 2px #000 inset;
-	background:rgba(50,50,50,0.7);
-	position:relative;
+	background:rgba(50,50,50,0.7);	
 }
 .youkuhtml5playerbookmark2-rangeinner{
 	margin:0;
@@ -192,52 +250,50 @@
 	bottom:1px;
 	right:1px;
 	left:1px;
+	padding:1px;
 }
 .youkuhtml5playerbookmark2-rangebtn{
 	margin:0;
 	height:100%;
 	width:0%;
-	border-radius:6px;
-	background-image:-webkit-linear-gradient(top, #3fb3fa 0%, #3492c4 100%);
+	border-radius:3px;
+	background-image:-webkit-linear-gradient(top, #fcfcfc 0%, #e2e2e2 100%);
+	background-image:-moz-linear-gradient(top, #fcfcfc 0%, #e2e2e2 100%);
 	box-shadow:0 0 2px #000;
 	position:relative;
 }
-.youkuhtml5playerbookmark2-volume .youkuhtml5playerbookmark2-rangebtn:after{
-	content: '\266B';
-}
 .youkuhtml5playerbookmark2-rangebtn:after{
-	content: ' ';
-	width:18px;
-	height:18px;
-	font-size:16px;
-	line-height:18px;
-	text-align:center;
-	text-shadow:1px 1px 1px #333;
+	content:'';
+	width:12px;
+	height:12px;
 	position:absolute;
-	top:-4px;
+	top:-6px;
 	right:-10px;
-	background-image:-webkit-linear-gradient(top, #3fb3fa 0%, #3492c4 100%);
-	color:#fff;
-	border:1px solid #333;
+	background-image:-webkit-linear-gradient(top, #fcfcfc 0%, #e2e2e2 100%);
+	background-image:-moz-linear-gradient(top, #fcfcfc 0%, #e2e2e2 100%);
 	border-radius:10px;
-	box-shadow:0 0 1px #333;
+	border:2px solid #444;
 	visibility:visible;
 }
 .youkuhtml5playerbookmark2-close{
 	position:absolute;
-	top:10px;
-	right:10px;
+	top:5px;
+	right:5px;
 	width:20px;
 	height:20px;
 	font-size:20px;
 	line-height:20px;
 	font-family: arial,sans-serif;
-	color:#3492c4;
-	text-shadow:0px 0px 6px #333;
-	font-weight: bold;
+	color:#eee;
+	text-shadow:0px 0px 1px #333;
 	cursor:pointer;
 	opacity: 0;
 	-webkit-transition:opacity 0.3s ease;
+	-moz-transition:opacity 0.3s ease;
+}
+.youkuhtml5playerbookmark2-close::after{
+	font-family: 'FontAwesome';
+	content:'\f00d';
 }
 .youkuhtml5playerbookmark2-center{
 	position:absolute;
@@ -261,7 +317,7 @@
 	font-family:arial,sans-serif;
 	position:absolute;
 	border-radius:50px;
-	border:5px solid #3fb3fa;
+	border:5px solid #fcfcfc;
 	margin:-50px 0 0 -50px;
 	box-shadow: 0 0 10px #333 inset, 0 0 10px #333;
 	background:rgba(0,0,0,0.5);
@@ -274,7 +330,7 @@
 	position:absolute;
 	top:50%;
 	left:50%;
-	border-left:40px solid #3fb3fa;
+	border-left:40px solid #fcfcfc;
 	border-top:25px solid transparent;
 	border-right:30px solid transparent;
 	border-bottom:25px solid transparent;
@@ -282,8 +338,7 @@
 	visibility:visible;
 }
 .youkuhtml5playerbookmark2-center.youkuhtml5playerbookmark2-loading .youkuhtml5playerbookmark2-center-before{	
-	font-size:20px;
-	letter-spacing:-2px;
+	font-size:90px;
 	font-weight: bolder;
 	display:block;
 	width:90px;
@@ -294,21 +349,26 @@
 	left:50%;
 	font-family:arial,sans-serif;
 	position:absolute;
-	color:#3fb3fa;
+	color:#fcfcfc;
 	border-radius:50px;
-	border:5px solid #3fb3fa;
+	/*border:5px solid #fcfcfc;*/
 	margin:-50px 0 0 -50px;
-	box-shadow: 0 0 10px #333 inset, 0 0 10px #333;
-	background:rgba(0,0,0,0.5);
+	text-shadow: 0 0 10px #333;
+	/*background:rgba(0,0,0,0.5);*/
 	visibility:visible;
 	-webkit-animation:rotate;
-	-webkit-animation-duration:10s;
+	-moz-animation:rotate;
+	-webkit-animation-duration:1s;
+	-moz-animation-duration:1s;
 	-webkit-animation-iteration-count:infinite;
+	-moz-animation-iteration-count:infinite;
 	-webkit-animation-timing-function:linear;
+	-moz-animation-timing-function:linear;
 }
 .youkuhtml5playerbookmark2-center.youkuhtml5playerbookmark2-loading .youkuhtml5playerbookmark2-center-before:before{
-	content:'LOADING';
-	visibility: visible;
+	content:'\f110';
+	font-family:'FontAwesome';
+	visibility:visible;
 }
 
 /*弹幕*/
