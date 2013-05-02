@@ -39,6 +39,30 @@
 
 combine.js 是一个node程序。直接执行 `node combine.js ` 可以将sorce中的文件打包成youkuhtml5playerbookmark2.js
 
+打包顺序在combine.js文件中，player.js在最前。 start.js 在最后。其他没有依赖关系。
+
+每个组件的栗子:
+
+```
+'acfun' && youkuhtml5playerbookmark2.add(function(core, canPlayM3U8){
+	//core 一些代码方法集。详见player.js
+	//canPlayM3U8 浏览器是否支持播放M3U8方法 bool
+	return{
+		//判断是否在这个网站执行这个组件
+		reg:  /acfun\.tv/.test(window.location.host) && window.system,
+		//执行方法
+		//callback回调
+		//urls 栗子
+		// {‘高清’: 'http://xxxxxxxxxxxxx.mp4',…}
+		//flashElementId 需要隐藏的flash元素的id
+		//comment 如果有弹幕的话。 弹幕格式需要使用bilibili格式，不是acfun格式。
+		call: function(callback){			
+				return callback({ urls: urls, flashElementId: 'area-player', comment: commentInfo });
+		}
+	};
+});	
+```
+
 ---
 
 用到的项目：
