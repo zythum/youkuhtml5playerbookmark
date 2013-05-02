@@ -1,7 +1,7 @@
 妈妈再也不用担心我的mba看优酷发热了计划
 ---
 
-服务位置: [http://zythum.sinaapp.com/youkuhtml5playerbookmark/]()
+服务位置: [http://zythum.sinaapp.com/youkuhtml5playerbookmark/](http://zythum.sinaapp.com/youkuhtml5playerbookmark/)
 
 >在优酷等在线视频网站切换html5方式播放视频。以免macbook可以烫到可以煎牛排。
 现在的动漫不是原来越向文字长。无厘头的方向发展不是么。那么朱一也这么来把。妈妈再也不用担心我的macbook发烫了计划2.0 Beta!!
