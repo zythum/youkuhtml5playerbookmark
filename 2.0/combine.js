@@ -10,6 +10,7 @@ var files = [
 	'./source/letv.js',
 	'./source/acfun.js',
 	'./source/bilibili.js',
+	'./source/xunlei.js',
 	'./source/start.js'
 	];
 
