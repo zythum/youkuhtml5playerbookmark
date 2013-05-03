@@ -34,7 +34,7 @@
 		);		
 	};
 	return{
-		reg: /iplay\.html/.test(window.location.pathname) && window.gCloudVod,
+		reg: /iplay\.html/.test(window.location.pathname) && window.gCloudVod && canPlayM3U8,
 		call: function(callback){
 			return m3u8(function(urls){
 				return callback({ urls: urls, flashElementId: 'XL_CLOUD_VOD_PLAYER' });
