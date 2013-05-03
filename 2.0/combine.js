@@ -11,6 +11,7 @@ var files = [
 	'./source/acfun.js',
 	'./source/bilibili.js',
 	'./source/xunlei.js',
+	'./source/163open.js',
 	'./source/start.js'
 	];
 
