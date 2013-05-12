@@ -11,7 +11,7 @@
 	var youku = function(src, callback, commentInfo){		
 		var id = src.match(/vid\/([0-9a-zA-Z]+)\//);
 		id = id[1];
-		if(canPlayM3U8){
+		if(false && canPlayM3U8){
 			callback({
 				'&#x6807;&#x6E05;': 'http://v.youku.com/player/getM3U8/vid/'+id+'/type/flv/ts/'+(new Date()).getTime().toString().substring(0,10)+'/sc/2/useKeyframe/0/v.m3u8',
 				'&#x539F;&#x753B;': 'http://v.youku.com/player/getM3U8/vid/'+id+'/type/hd2/ts/'+(new Date()).getTime().toString().substring(0,10)+'/sc/2/useKeyframe/0/v.m3u8'

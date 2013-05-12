@@ -1,5 +1,5 @@
 var files = [
-	'./source/player.js',
+	'./source/playerlite.js',
 	'./source/youku.js',
 	'./source/tudou.js',
 	'./source/qq.js',
@@ -42,7 +42,7 @@ loopRead(function(){
 	ast = pro.ast_mangle(ast);
 	ast = pro.ast_squeeze(ast);
 	ast = pro.gen_code(ast);
-	fs.writeFile('youkuhtml5playerbookmark2.js', ast, function() {
-		console.log('-----youkuhtml5playerbookmark2.js updated!----');
+	fs.writeFile('youkuhtml5playerbookmark2lite.js', ast, function() {
+		console.log('-----youkuhtml5playerbookmark2lite.js updated!----');
 	});
 });

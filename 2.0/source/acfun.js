@@ -3,7 +3,7 @@
 		callback({ 'sina': 'http://edge.v.iask.com.sinastorage.com/'+vid+'.mp4'}, commentInfo);
 	};
 	var youku = function(vid, callback, commentInfo){
-		if(canPlayM3U8){
+		if(false && canPlayM3U8){
 			callback({
 				'&#x6807;&#x6E05;': 'http://v.youku.com/player/getM3U8/vid/'+vid+'/type/flv/ts/'+(new Date()).getTime().toString().substring(0,10)+'/sc/2/useKeyframe/0/v.m3u8',
 				'&#x539F;&#x753B;': 'http://v.youku.com/player/getM3U8/vid/'+vid+'/type/hd2/ts/'+(new Date()).getTime().toString().substring(0,10)+'/sc/2/useKeyframe/0/v.m3u8'
