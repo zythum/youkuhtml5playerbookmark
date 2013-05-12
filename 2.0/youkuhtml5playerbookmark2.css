@@ -181,7 +181,7 @@
 	width:100px;
 	cursor:pointer;
 }
-.youkuhtml5playerbookmark2-volume::before{
+div.youkuhtml5playerbookmark2-volume::before{
 	font-family: 'FontAwesome';
 	font-weight: normal;
 	content:'\f028';
@@ -216,17 +216,23 @@
 	font-family: arial,sans-serif;
 	font-weight:bold;
 }
-.youkuhtml5playerbookmark2-btn.youkuhtml5playerbookmark2-cmtBtn::before{
+div.youkuhtml5playerbookmark2-btn.youkuhtml5playerbookmark2-cmtBtn::before{
 	font-family: 'FontAwesome';
+	display:block;
 	content:'\f086';
+	visibility: visible;
 }
-.youkuhtml5playerbookmark2-btn.youkuhtml5playerbookmark2-allscreen::before{
+div.youkuhtml5playerbookmark2-btn.youkuhtml5playerbookmark2-allscreen::before{
 	font-family: 'FontAwesome';
 	content:'\f065';
+	display:block;
+	visibility: visible;
 }
-.youkuhtml5playerbookmark2-btn.youkuhtml5playerbookmark2-fullscreen::before{
+div.youkuhtml5playerbookmark2-btn.youkuhtml5playerbookmark2-fullscreen::before{
 	font-family: 'FontAwesome';
 	content:'\f0b2';
+	display:block;
+	visibility: visible;
 }
 .youkuhtml5playerbookmark2-select{
 	background-image:-webkit-linear-gradient(bottom, #fcfcfc 0%, #e2e2e2 100%);
@@ -292,9 +298,10 @@
 	-webkit-transition:opacity 0.3s ease;
 	-moz-transition:opacity 0.3s ease;
 }
-.youkuhtml5playerbookmark2-close::after{
+div.youkuhtml5playerbookmark2-close::after{
 	font-family: 'FontAwesome';
 	content:'\f00d';
+	visibility: visible;
 }
 .youkuhtml5playerbookmark2-center{
 	position:absolute;
@@ -366,7 +373,7 @@
 	-webkit-animation-timing-function:linear;
 	-moz-animation-timing-function:linear;
 }
-.youkuhtml5playerbookmark2-center.youkuhtml5playerbookmark2-loading .youkuhtml5playerbookmark2-center-before:before{
+div.youkuhtml5playerbookmark2-center.youkuhtml5playerbookmark2-loading .youkuhtml5playerbookmark2-center-before:before{
 	content:'\f110';
 	font-family:'FontAwesome';
 	visibility:visible;
@@ -433,7 +440,7 @@
 	clear:both;
 	font-size: 12px;
 }
-.youkuhtml5playerbookmark2-log:after{
+div.youkuhtml5playerbookmark2-log:after{
 	font-family:"FontAwesome";
 	content:'  \f046';
 }

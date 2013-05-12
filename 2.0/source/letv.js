@@ -21,12 +21,12 @@
 		eval(script.innerHTML);
 		LELib.Revive.Player = temp;
 		var urls = {};
-		if(canPlayM3U8){
-			if(value.v[1]) urls['&#x6807;&#x6E05;'] = LETV.Base64.decode(value.v[1]);
-			if(value.v[0]) urls['&#x9AD8;&#x6E05;'] = LETV.Base64.decode(value.v[0]);
+		if(canPlayM3U8){			
+			if(value.v[0]) urls['&#x6807;&#x6E05;'] = LETV.Base64.decode(value.v[0]);
+			if(value.v[1]) urls['&#x9AD8;&#x6E05;'] = LETV.Base64.decode(value.v[1]);
 		}else{
-			if(value.v[1]) urls['&#x6807;&#x6E05;'] = LETV.Base64.decode(value.v[1]).replace('tss=ios', '');
-			if(value.v[0]) urls['&#x9AD8;&#x6E05;'] = LETV.Base64.decode(value.v[0]).replace('tss=ios', '');
+			if(value.v[0]) urls['&#x6807;&#x6E05;'] = LETV.Base64.decode(value.v[0]).replace('tss=ios', '');
+			if(value.v[1]) urls['&#x9AD8;&#x6E05;'] = LETV.Base64.decode(value.v[1]).replace('tss=ios', '');
 		}
 		if(urls){
 			callback(urls);						

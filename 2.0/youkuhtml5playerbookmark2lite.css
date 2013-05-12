@@ -15,13 +15,10 @@
 	background:#eee;
 }
 .youkuhtml5playerbookmark2-player{
-	position:absolute;
-	top:0;
-	left:0;
-	right:0;
-	bottom: 0px;
+	width:100%;
+	height:100%;
 }
-.youkuhtml5playerbookmark2-video{
+video.youkuhtml5playerbookmark2-video{
 	width:100%;
 	height:100%;
 	background:#000;
@@ -35,17 +32,17 @@
 	margin:0px;
 	text-align:center;
 	overflow:auto;
-	white-space:nowrap;
 	padding-left:50px;
 }
 .youkuhtml5playerbookmark2-btn{
 	display:inline-block;
-	width:80%;
-	height:95%;
+	width:200px;
+	height:200px;
+	float:left;
 	border-radius: 5px;
 	box-shadow: 0 0 3px #333;
-	background:#333;
-	margin:0 20px;
+	background:#000;
+	margin:0 20px 20px;
 	position:relative;
 	overflow:hidden;	
 }
@@ -58,7 +55,15 @@
 	line-height:30px;
 	text-align:center;
 	background:-webkit-linear-gradient(top, #3fb3fa 0%, #3492c4 100%);
+	background:-moz-linear-gradient(top, #3fb3fa 0%, #3492c4 100%);
+	background:-o-linear-gradient(top, #3fb3fa 0%, #3492c4 100%);
+	background:-ms-linear-gradient(top, #3fb3fa 0%, #3492c4 100%);
+	background:linear-gradient(top, #3fb3fa 0%, #3492c4 100%);
 	-webkit-transform:rotate(-45deg);
+	-moz-transform:rotate(-45deg);
+	-o-transform:rotate(-45deg);
+	-ms-transform:rotate(-45deg);
+	transform:rotate(-45deg);
 	top:30px;
 	left:30px;
 	font-size:18px;
@@ -75,6 +80,10 @@
 	left:50%;
 	margin-left:-100px;
 	background:-webkit-linear-gradient(top, #3fb3fa 0%, #3492c4 100%);
+	background:-moz-linear-gradient(top, #3fb3fa 0%, #3492c4 100%);
+	background:-o-linear-gradient(top, #3fb3fa 0%, #3492c4 100%);
+	background:-ms-linear-gradient(top, #3fb3fa 0%, #3492c4 100%);
+	background:linear-gradient(top, #3fb3fa 0%, #3492c4 100%);
 	box-shadow: 0 2px 4px #333;
 	font-size:20px;
 	color:#fff;

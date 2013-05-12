@@ -88,25 +88,47 @@ var youkuhtml5playerbookmark2 = (function(){
 	var layer         = core.cTag('div',  CSSp+'layer'       );
 	var btns          = core.cTag('div',  CSSp+'btns'       , layer);
 	var close         = core.cTag('div',  CSSp+'close'      , layer, '&#x5988;&#x5988;&#x8BA1;&#x5212;Lite | &#x5173;&#x95ED;');
-	var about         = core.cTag('a',  CSSp+'about'      , layer, '&#x5173;&#x4E8E;&#x5988;&#x5988;&#x8BA1;&#x5212;');	
+	var about         = core.cTag('a',    CSSp+'about'      , layer, '&#x5173;&#x4E8E;&#x5988;&#x5988;&#x8BA1;&#x5212;');	
 	var logArea       = core.cTag('div',  CSSp+'logArea'     );	
+	// var player        = core.cTag('div',  CSSp+'player'      );
+	// var video         = core.cTag('video',CSSp+'video'      , player);
+	// video.controls = true;
+	// video.addEventListener('canplay', video.play(), false);
 	var flashElement = undefined;
-	var videos = [];
 	var flashElementPlaceHolder = core.cTag('div');
+	var dClick = core.dClick(layer);
 	about.href="http://zythum.sinaapp.com/youkuhtml5playerbookmark/";
+	
+	var videos = [];
 	var job = {
 		setUrl: function(obj){
 			job.url = [];
-			var i, btn, txt, player;
+			var i, btn, txt, player, video;
 			for(i in obj){
 				btn    = core.cTag('div', CSSp+'btn'    , null);
 				txt    = core.cTag('div', CSSp+'btntxt' , btn, i);
-				player = core.cTag('div',  CSSp+'player', btn);
-				video  = core.cTag('video',CSSp+'video' , player);
+				player = core.cTag('div', CSSp+'player', btn);
+				video  = core.cTag('video',CSSp+'video', player);
 				video.controls = true;
+				video.preload = 'none';
 				video.src = obj[i];
+				btn.setAttribute('data-click', 'play');
+				video.addEventListener("fullscreenchange", function () {
+					!document.fullscreen && video.pause();
+				}, false);
+				video.addEventListener('webkitfullscreenchange', function(){
+					!document.webkitIsFullScreen && video.pause();
+				}, false);				
+				video.addEventListener("mozfullscreenchange", function () {
+				    !document.mozFullScreen && video.pause();
+				}, false);
+				video.addEventListener("ended", function () {
+					document.exitFullscreen && document.exitFullscreen();
+					document.mozCancelFullScreen && document.mozCancelFullScreen();
+					document.webkitCancelFullScreen && document.webkitCancelFullScreen();
+				}, false);
 				videos.push(video);
-				video.preload = 'metadata';
+				// btn.setAttribute('data-url', obj[i]);
 				btns.insertBefore(btn, btns.children[0]);
 			}
 		}		
@@ -134,13 +156,31 @@ var youkuhtml5playerbookmark2 = (function(){
 	document.body.style.overflow = 'hidden';
 	var destroy = function(){
 		var video;
-		while(video = videos.shift()){
+		while(video = videos.pop()){
 			video.src = '';
 		}
 		document.body.style.overflow = '';
+		close.removeEventListener('click', destroy, false);
 		core.rNode(layer);
 		core.rNode(logArea);
+		window.isHTML5PlayerBookMarkCodeByZythum = false;
 	}
+	close.addEventListener('click', destroy, false);	
+	dClick.add('play', function(el){
+		// if(player.parentNode != el){
+		// 	el.appendChild(player);
+		// 	video.src = el.getAttribute('data-url');			
+		// }
+		// setTimeout(function(){
+			var video = el.getElementsByTagName('video')[0];
+			video.webkitRequestFullScreen && video.webkitRequestFullScreen();
+			video.webkitEnterFullScreen   && video.webkitEnterFullScreen();
+			video.mozRequestFullScreen    && video.mozRequestFullScreen();
+			video.requestFullScreen       && video.requestFullScreen();
+			video.requestFullscreen       && video.requestFullscreen();		
+			video.play(); 
+		// },20);
+	});
 	return {
 		add: function(callback){
 			// callback return {reg, call, flashElement, comment}
