@@ -1,4 +1,5 @@
 var files = [
+	'./source/header.js',
 	'./source/playerlite.js',
 	'./source/youku.js',
 	'./source/tudou.js',

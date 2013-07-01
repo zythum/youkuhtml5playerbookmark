@@ -1,5 +1,3 @@
-if(window.isHTML5PlayerBookMarkCodeByZythum) return;
-window.isHTML5PlayerBookMarkCodeByZythum = true;
 var youkuhtml5playerbookmark2 = (function(){
 	var canPlayM3U8 = !!document.createElement('video').canPlayType('application/x-mpegURL') ? true : false;	
 	var core = {
