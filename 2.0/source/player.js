@@ -273,9 +273,9 @@ var youkuhtml5playerbookmark2 = (function(){
 			var lineNum = 0;
 			while(job.line[lineNum]){ lineNum++; }
 			job.line[lineNum] = aCmt;
-			aCmt.style.cssText += ';-webkit-transform: translateX('+allWidth+'px);top:'+lineNum*aCmtHeight+'px;left:0px;color:#'+parseInt(p[3]).toString(16)+';';
+			aCmt.style.cssText += ';-webkit-transform: translate3d('+allWidth+'px, 0, 0);top:'+lineNum*aCmtHeight+'px;left:0px;color:#'+parseInt(p[3]).toString(16)+';';
 			setTimeout(function(){
-				aCmt.style.cssText += ';-webkit-transform: translateX(-'+aCmtWidth+'px);-webkit-transition:-webkit-transform '+showTime+'s linear;';
+				aCmt.style.cssText += ';-webkit-transform: translate3d(-'+aCmtWidth+'px, 0, 0);-webkit-transition:-webkit-transform '+showTime+'s linear;';
 			},0);
 			setTimeout(function(){
 				job.line[lineNum] = undefined;
