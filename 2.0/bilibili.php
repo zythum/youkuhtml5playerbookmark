@@ -6,7 +6,7 @@ $ua       = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/536.26.1
 
 function bilibili($url){
 	// 抓取网页URL
-	// $url = "http://api.bilibili.tv/view?type=json&appkey=&id=".$aid."&page=".$page;
+	// $url = "http://api.bilibili.tv/view?type=json&appkey=0f38c1b83b2de0a0&id=".$aid."&page=".$page;
 	// 初始化，返回一个handler
 	$ch  = curl_init($url);
 	// curl_setopt($curl, CURLOPT_HEADER, 1);
@@ -23,7 +23,7 @@ function bilibili($url){
 	return $rs;
 }
 echo("try{".$callback."(");
-$rs = bilibili("http://api.bilibili.tv/view?type=json&appkey=&id=".$aid."&page=".$page);
+$rs = bilibili("http://api.bilibili.tv/view?type=json&appkey=0f38c1b83b2de0a0&id=".$aid."&page=".$page);
 $json = get_object_vars(json_decode($rs));
 $cid  = $json['cid'];
 if(!$cid){
@@ -31,7 +31,7 @@ if(!$cid){
 }
 echo($cid);
 echo(',');
-$rs = bilibili("http://interface.bilibili.tv/playurl?otype=json&cid=".$cid."&type=mp4");
+$rs = bilibili("http://interface.bilibili.tv/playurl?otype=json&appkey=0f38c1b83b2de0a0&cid=".$cid."&type=mp4");
 echo($rs);
 echo(",");
 $rs = bilibili("http://comment.bilibili.tv/".$cid.".xml");
