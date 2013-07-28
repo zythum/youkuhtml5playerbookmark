@@ -2,7 +2,7 @@
 	var _id = window.vid;	
 	var m3u8 = function(callback){
 		return callback({
-			'&#x9AD8;&#x6E05;': 'http://hot.vrs.sohu.com/ipad'+vid+'.m3u8'
+			'&#x9AD8;&#x6E05;': 'http://my.tv.sohu.com/ipad/'+vid+'.m3u8'
 		});
 	};
 	var mp4 = function(callback){
