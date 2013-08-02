@@ -1,21 +1,34 @@
 '搜狐' && youkuhtml5playerbookmark2.add(function(core, canPlayM3U8){
-	var _id = window.vid;	
+	var vid = window.vid;
+	var nid = window.nid;
 	var m3u8 = function(callback){
-		return callback({
-			'&#x9AD8;&#x6E05;': 'http://my.tv.sohu.com/ipad/'+vid+'.m3u8'
-		});
+		core.jsonp(
+			'http://zythum.sinaapp.com/youkuhtml5playerbookmark/sohu.php?vid='+vid+'&nid='+nid+'&callback=',
+			function(param){
+				var url = param.urls.m3u8.filter(function(item){
+					if(item){
+						return item;
+					}
+				});
+				callback( { '&#x9AD8;&#x6E05;': url[0] });
+			}
+		)
 	};
 	var mp4 = function(callback){
-		var appkey = 'f351515304020cad28c92f70f002261c';		
 		core.jsonp(
-			'http://api.tv.sohu.com/video/playinfo/'+vid+'.json?encoding=gbk&api_key='+appkey+'&from=mweb&_='+(new Date()).getTime()+'&callback=',
+			'http://zythum.sinaapp.com/youkuhtml5playerbookmark/sohu.php?vid='+vid+'&nid='+nid+'&callback=',
 			function(param){
-				callback({ '&#x9AD8;&#x6E05;': param.data.downloadurl });
+				var url = param.urls.mp4.filter(function(item){
+					if(item){
+						return item;
+					}
+				});
+				callback( { '&#x9AD8;&#x6E05;': url[0] });
 			}
-		);
+		)
 	};
 	return{
-		reg: /sohu\.com/.test(window.location.host) && _id,
+		reg: /sohu\.com/.test(window.location.host) && vid,
 		call: function(callback){
 			return (canPlayM3U8 ? (m3u8||mp4) : mp4)(function(urls){
 				return callback({ urls: urls, flashElementId: 'player' });
