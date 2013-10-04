@@ -75,5 +75,5 @@ combine.js 是一个node程序。直接执行 `node combine.js ` 可以将sorce�
 
 用到的项目：
 
-+ [https://github.com/FortAwesome/Font-Awesome]()
-+ [https://github.com/mishoo/UglifyJS2]()
++ [https://github.com/FortAwesome/Font-Awesome](https://github.com/FortAwesome/Font-Awesome)
++ [https://github.com/mishoo/UglifyJS2](https://github.com/mishoo/UglifyJS2)
