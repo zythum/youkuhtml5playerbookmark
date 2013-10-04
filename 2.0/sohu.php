@@ -4,7 +4,7 @@ $vid     = $_GET['vid'];
 $nid     = $_GET['nid'];
 $ua       = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/536.26.17 (KHTML, like Gecko) Version/6.0.2 Safari/536.26.17";
 
-function fatch($url){
+function fetch($url){
 	// 抓取网页URL
 	// $url = "http://api.bilibili.tv/view?type=json&appkey=&id=".$aid."&page=".$page;
 	// 初始化，返回一个handler
@@ -23,7 +23,7 @@ function fatch($url){
 	return $rs;
 }
 
-$html = fatch('http://m.tv.sohu.com/'.$vid.'/n'.$nid.'.shtml');
+$html = fetch('http://m.tv.sohu.com/'.$vid.'/n'.$nid.'.shtml');
 preg_match("/var\ VideoData\ \=\ (\{.*\})\;/s", $html, $script);
 $script = $script[1];
 echo("try{".$callback."(");
