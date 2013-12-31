@@ -85,7 +85,7 @@
 		);
 	};
 	return{
-		reg:  /bilibili\.tv/.test(window.location.host) && window.aid,
+		reg:  /bilibili.kankanews\.com/.test(window.location.host) && window.aid,
 		call: function(callback){			
 			return init(function(urls, commentInfo){
 				return callback({ urls: urls, flashElementId: 'bofqi', comment: commentInfo });
