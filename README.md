@@ -1,2 +1,1 @@
-进去看2.0才是好童鞋
----
+##请出门右拐看新坑 => [MAMA2](http://zythum.github.io/mama2/)
